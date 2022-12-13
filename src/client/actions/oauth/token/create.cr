@@ -44,7 +44,7 @@ module Samba::Oauth::Token::Create
 
     def do_run_operation_succeeded(operation, oauth_token)
       return invalid_scope_response unless oauth_token.sso?
-      redirect to: CurrentUser::Show
+      redirect_back fallback: CurrentUser::Show
     end
 
     def do_run_operation_failed(operation)
