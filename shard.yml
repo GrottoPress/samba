@@ -1,0 +1,40 @@
+name: samba
+version: 0.1.0
+description: SSO authentication for Shield
+
+authors:
+  - GrottoPress <info@grottopress.com>
+  - N Atta Kusi Adusei
+
+license: MIT
+
+crystal: ~> 1.6
+
+dependencies:
+  shield:
+    github: GrottoPress/shield
+    # version: ~> 0.18.0
+    branch: master
+
+development_dependencies:
+  ameba:
+    github: crystal-ameba/ameba
+    version: ~> 1.2.0
+  avram:
+    github: luckyframework/avram
+    version: ~> 1.0.0-rc1
+  carbon:
+    github: luckyframework/carbon
+    version: ~> 0.3.0
+  dude:
+    github: GrottoPress/dude
+    version: ~> 0.1.0
+  lucky:
+    github: luckyframework/lucky
+    version: ~> 1.0.0-rc1
+  lucky_env:
+    github: luckyframework/lucky_env
+    version: ~> 0.1.4
+  webmock:
+    github: manastech/webmock.cr
+    version: ~> 0.14.0
