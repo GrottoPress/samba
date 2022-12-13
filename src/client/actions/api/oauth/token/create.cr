@@ -16,7 +16,7 @@ module Samba::Api::Oauth::Token::Create
     # end
 
     def run_operation
-      CreateOauthToken.run(params) do |operation, oauth_token|
+      CreateOauthToken.run(params, session: nil) do |operation, oauth_token|
         return error_response(oauth_token) if oauth_token.try(&.error)
 
         if oauth_token.try(&.sso?) &&
@@ -36,9 +36,7 @@ module Samba::Api::Oauth::Token::Create
 
     def do_run_operation_succeeded(operation, oauth_token)
       return invalid_scope_response unless oauth_token.sso?
-
-      RegisterCurrentUser.upsert!(remote_id: oauth_token.remote_id.not_nil!)
-      json(oauth_token)
+      json oauth_token
     end
 
     def do_run_operation_failed(operation)

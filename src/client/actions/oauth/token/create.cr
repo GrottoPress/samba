@@ -22,7 +22,8 @@ module Samba::Oauth::Token::Create
         client_id: client[:id],
         client_secret: client[:secret],
         redirect_uri: client[:redirect_uri],
-        code_verifier: code_verifier.to_s
+        code_verifier: code_verifier.to_s,
+        session: session
       ) do |operation, oauth_token|
         return error_response(oauth_token) if oauth_token.try(&.error)
 
@@ -43,10 +44,6 @@ module Samba::Oauth::Token::Create
 
     def do_run_operation_succeeded(operation, oauth_token)
       return invalid_scope_response unless oauth_token.sso?
-
-      LoginSession.new(session).set(oauth_token)
-      RegisterCurrentUser.upsert!(remote_id: oauth_token.remote_id.not_nil!)
-
       redirect to: CurrentUser::Show
     end
 

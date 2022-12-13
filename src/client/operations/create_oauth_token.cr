@@ -2,6 +2,8 @@ module Samba::CreateOauthToken
   macro included
     param_key :oauth_token
 
+    needs session : Lucky::Session?
+
     attribute client_id : String
     attribute client_secret : String
     attribute code : String
@@ -14,6 +16,9 @@ module Samba::CreateOauthToken
       validate_client_secret_required
       validate_redirect_uri_required
     end
+
+    after_run set_login_session
+    after_run create_user
 
     def run
       create_token
@@ -46,6 +51,22 @@ module Samba::CreateOauthToken
         redirect_uri.value.not_nil!,
         code_verifier.value
       )
+    end
+
+    private def set_login_session(oauth_token : OauthToken)
+      client_id.value.try do |value|
+        session.try do |_session|
+          return unless oauth_token.client_authorized?(value)
+          LoginSession.new(_session).set(oauth_token)
+        end
+      end
+    end
+
+    private def create_user(oauth_token : OauthToken)
+      client_id.value.try do |value|
+        return unless oauth_token.sso? && oauth_token.client_authorized?(value)
+        RegisterCurrentUser.upsert!(remote_id: oauth_token.remote_id.not_nil!)
+      end
     end
   end
 end

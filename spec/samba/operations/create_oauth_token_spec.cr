@@ -4,16 +4,20 @@ describe Samba::CreateOauthToken do
   it "creates oauth token" do
     WebMock.allow_net_connect = false
 
+    access_token = "access-token"
     client_id = "client-id"
     client_secret = "client-secret"
     code = "code"
     code_verifier = "code-verifier"
     redirect_uri = "http://redirect.uri"
+    sub = "5678"
 
     body = <<-JSON
       {
-        "access_token": "access-token",
-        "scope": "samba.current_user.show sika.logins.show",
+        "access_token": "#{access_token}",
+        "azp": "#{client_id}",
+        "scope": "sso samba.current_user.show sika.logins.show",
+        "sub": "#{sub}",
         "token_type": "Bearer"
       }
       JSON
@@ -32,30 +36,38 @@ describe Samba::CreateOauthToken do
       )
       .to_return(body: body)
 
-    CreateOauthToken.run(nested_params(
-      oauth_token: {
+    session = Lucky::Session.new
+
+    CreateOauthToken.run(
+      nested_params(oauth_token: {
         client_id: client_id,
         client_secret: client_secret,
         code: code,
         code_verifier: code_verifier,
         redirect_uri: redirect_uri
-      }
-    )) do |operation, oauth_token|
+      }),
+      session: session
+    ) do |operation, oauth_token|
       operation.valid?.should be_true
 
       oauth_token.should be_a(OauthToken)
+      LoginSession.new(session).raw_token?.should eq(access_token)
+
+      # ameba:disable Performance/AnyInsteadOfEmpty
+      UserQuery.new.remote_id(sub).any?.should be_true
     end
   end
 
   it "requires authorization code" do
-    CreateOauthToken.run(nested_params(
-      oauth_token: {
+    CreateOauthToken.run(
+      nested_params(oauth_token: {
         client_id: "client-id",
         client_secret: "client-secret",
         code_verifier: "code-verifier",
         redirect_uri: "http://redirect.uri"
-      }
-    )) do |operation, oauth_token|
+      }),
+      session: nil
+    ) do |operation, oauth_token|
       oauth_token.should be_nil
 
       operation.code.should have_error("operation.error.code_required")
@@ -63,14 +75,16 @@ describe Samba::CreateOauthToken do
   end
 
   it "requires client ID" do
-    CreateOauthToken.run(nested_params(
-      oauth_token: {
+    CreateOauthToken.run(
+      nested_params(oauth_token: {
         client_secret: "client-secret",
         code: "code",
         code_verifier: "code-verifier",
-        redirect_uri: "http://redirect.uri"
-      }
-    )) do |operation, oauth_token|
+        redirect_uri: "http://redirect.uri",
+        session: nil
+      }),
+      session: nil
+    ) do |operation, oauth_token|
       oauth_token.should be_nil
 
       operation.client_id
@@ -79,14 +93,15 @@ describe Samba::CreateOauthToken do
   end
 
   it "requires client secret" do
-    CreateOauthToken.run(nested_params(
-      oauth_token: {
+    CreateOauthToken.run(
+      nested_params(oauth_token: {
         client_id: "client-id",
         code: "code",
         code_verifier: "code-verifier",
         redirect_uri: "http://redirect.uri"
-      }
-    )) do |operation, oauth_token|
+      }),
+      session: nil
+    ) do |operation, oauth_token|
       oauth_token.should be_nil
 
       operation.client_secret
@@ -95,14 +110,15 @@ describe Samba::CreateOauthToken do
   end
 
   it "requires redirect URI" do
-    CreateOauthToken.run(nested_params(
-      oauth_token: {
+    CreateOauthToken.run(
+      nested_params(oauth_token: {
         client_id: "client-id",
         client_secret: "client-secret",
         code: "code",
         code_verifier: "code-verifier"
-      }
-    )) do |operation, oauth_token|
+      }),
+      session: nil
+    ) do |operation, oauth_token|
       oauth_token.should be_nil
 
       operation.redirect_uri
