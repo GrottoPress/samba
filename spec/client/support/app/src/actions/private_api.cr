@@ -4,5 +4,7 @@ abstract class PrivateApi < Lucky::Action
 
   accepted_formats [:json]
 
+  disable_cookies
+
   route_prefix "/api"
 end
