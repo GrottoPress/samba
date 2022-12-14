@@ -4,13 +4,13 @@ require "avram/lucky"
 require "carbon"
 require "dude"
 
-require "../../../../src/client"
+require "../../../../../src/client"
 
 require "./app_database"
 require "./models/base_model"
 require "./models/**"
 
-require "../../../../src/presets/client"
+require "../../../../../src/presets/client"
 
 # require "./queries/**"
 # require "./operations/**"

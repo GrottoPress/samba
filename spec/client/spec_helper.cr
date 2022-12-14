@@ -7,7 +7,7 @@ require "webmock"
 require "./support/boot"
 require "./setup/**"
 
-require "../src/spec/client"
+require "../../src/spec/client"
 
 include Lucky::RequestExpectations
 
