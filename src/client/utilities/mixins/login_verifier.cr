@@ -40,10 +40,10 @@ module Samba::LoginVerifier
     end
 
     private def client_ids
-      client = Samba.settings.client
-
       Samba.settings.client_ids.tap do |ids|
-        ids << client[:id] if client
+        Samba.settings.client.try do |client|
+          ids << client[:id] unless ids.includes?(client[:id])
+        end
       end
     end
   end
