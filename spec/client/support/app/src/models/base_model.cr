@@ -1,5 +1,5 @@
 abstract class BaseModel < Avram::Model
   def self.database : Avram::Database.class
-    AppDatabase
+    Avram.settings.database_to_migrate
   end
 end
