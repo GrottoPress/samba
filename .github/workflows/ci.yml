@@ -71,6 +71,6 @@ jobs:
       - name: Run tests
         env:
           CACHE_REDIS_URL: redis://localhost:6379/0
-          DATABASE_URL: postgres://postgres:password@localhost:5432/bill_spec
+          DATABASE_URL: postgres://postgres:password@localhost:5432/samba_spec
           SKIP_LOAD_ENV: "true"
         run: crystal spec --error-on-warnings
