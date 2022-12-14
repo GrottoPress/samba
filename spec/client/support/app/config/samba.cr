@@ -10,7 +10,7 @@ Samba.configure do |settings|
   settings.client_ids = ["client-def456"]
 
   settings.token_endpoint = "https://my.app/oauth/token"
-  settings.token_introspection_endpoint = "https://my.app/oauth/token"
+  settings.token_introspection_endpoint = "https://my.app/oauth/token/verify"
 
   settings.verify_token = ->(key : String, verify : -> OauthToken) do
     Dude.get(OauthToken, key, 30.seconds) { verify.call }
