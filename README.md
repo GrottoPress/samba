@@ -1,6 +1,6 @@
 # Samba
 
-**Samba** is a Single Sign On authentication solution for [Lucky](https://luckyframework.org) framework. It augments [Shield](https://github.com/grottopress/shield)'s OAuth 2 capabilities with authentication.
+**Samba** is a Single Sign On authentication solution for [Lucky](https://luckyframework.org) framework. It extends [Shield](https://github.com/grottopress/shield)'s OAuth 2 implementation with authentication capabilities.
 
 *Samba* allows a user to log in once in an organization, and gain automatic access other apps in the organization. Conversely, when a user logs out of one app, they are automatically logged out of all other apps.
 
