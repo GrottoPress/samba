@@ -1,6 +1,6 @@
 name: samba
 version: 0.1.0
-description: SSO authentication for Shield
+description: Single Sign On authentication for Lucky framework
 
 authors:
   - GrottoPress <info@grottopress.com>
