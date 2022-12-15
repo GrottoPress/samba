@@ -18,7 +18,7 @@ describe Samba::Api::BearerLoginPipes do
         }
         JSON
 
-      WebMock.stub(:POST, Samba.settings.token_introspection_endpoint)
+      WebMock.stub(:POST, Samba.settings.oauth_token_introspection_endpoint)
         .with(headers: {"Content-Type" => "application/x-www-form-urlencoded"})
         .to_return(body: body)
 
@@ -38,7 +38,7 @@ describe Samba::Api::BearerLoginPipes do
       body = <<-JSON
         {
           "active": true,
-          "client_id": "#{Samba.settings.client.try(&.[:id])}",
+          "client_id": "#{Samba.settings.oauth_client.try(&.[:id])}",
           "iss": "https://id.grottopress.com",
           "scope": "non.existent.scope",
           "sub": "#{user.remote_id}",
@@ -46,7 +46,7 @@ describe Samba::Api::BearerLoginPipes do
         }
         JSON
 
-      WebMock.stub(:POST, Samba.settings.token_introspection_endpoint)
+      WebMock.stub(:POST, Samba.settings.oauth_token_introspection_endpoint)
         .with(headers: {"Content-Type" => "application/x-www-form-urlencoded"})
         .to_return(body: body)
 

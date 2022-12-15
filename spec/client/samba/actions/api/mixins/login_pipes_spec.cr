@@ -50,7 +50,7 @@ describe Samba::Api::LoginPipes do
         }
         JSON
 
-      WebMock.stub(:POST, Samba.settings.token_introspection_endpoint)
+      WebMock.stub(:POST, Samba.settings.oauth_token_introspection_endpoint)
         .with(headers: {"Content-Type" => "application/x-www-form-urlencoded"})
         .to_return(body: body)
 
@@ -72,7 +72,7 @@ describe Samba::Api::LoginPipes do
       client.api_auth(
         5678,
         "g7h8i9",
-        client_id: Samba.settings.client_ids[0]
+        client_id: Samba.settings.oauth_client_ids[0]
       )
 
       response = client.exec(Spec::CurrentUser::Create)
@@ -86,7 +86,7 @@ describe Samba::Api::LoginPipes do
       client = ApiClient.new.api_auth(
         5678,
         "g7h8i9",
-        client_id: Samba.settings.client_ids[0]
+        client_id: Samba.settings.oauth_client_ids[0]
       )
 
       response = client.exec(Spec::Users::Index)

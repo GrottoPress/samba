@@ -22,7 +22,7 @@ describe Samba::CreateOauthToken do
       }
       JSON
 
-    WebMock.stub(:POST, Samba.settings.token_endpoint)
+    WebMock.stub(:POST, Samba.settings.oauth_token_endpoint)
       .with(
         headers: {"Content-Type" => "application/x-www-form-urlencoded"},
         body: URI::Params.encode({

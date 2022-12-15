@@ -10,7 +10,7 @@ describe Samba::LoginPipes do
       response.headers["Location"]?.should_not be_nil
 
       response.headers["Location"]
-        .should(start_with Samba.settings.authorization_endpoint)
+        .should(start_with Samba.settings.oauth_authorization_endpoint)
     end
 
     it "verifies access token" do
@@ -22,7 +22,7 @@ describe Samba::LoginPipes do
         }
         JSON
 
-      WebMock.stub(:POST, Samba.settings.token_introspection_endpoint)
+      WebMock.stub(:POST, Samba.settings.oauth_token_introspection_endpoint)
         .with(headers: {"Content-Type" => "application/x-www-form-urlencoded"})
         .to_return(body: body)
 
@@ -34,7 +34,7 @@ describe Samba::LoginPipes do
       response.headers["Location"]?.should_not be_nil
 
       response.headers["Location"]
-        .should(start_with Samba.settings.authorization_endpoint)
+        .should(start_with Samba.settings.oauth_authorization_endpoint)
     end
   end
 

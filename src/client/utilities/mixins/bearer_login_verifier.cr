@@ -34,7 +34,7 @@ module Samba::BearerLoginVerifier
 
     getter? oauth_token : OauthToken? do
       raw_token?.try do |token|
-        Samba.settings.verify_token.call(
+        Samba.settings.verify_oauth_token.call(
           OauthToken.cache_key(token),
           ->{ OauthToken.verify(token) }
         )

@@ -6,7 +6,7 @@ module Samba::HttpClient
       user : User,
       token : String,
       scopes = ["sso"],
-      client_id = Samba.settings.client.try(&.[:id])
+      client_id = Samba.settings.oauth_client.try(&.[:id])
     )
       api_auth(user.remote_id, token, scopes, client_id)
     end
@@ -15,7 +15,7 @@ module Samba::HttpClient
       remote_id,
       token : String,
       scopes = ["sso"],
-      client_id = Samba.settings.client.try(&.[:id])
+      client_id = Samba.settings.oauth_client.try(&.[:id])
     )
       scope = scopes.is_a?(Indexable) ? scopes.join(' ') : scopes
 
@@ -30,7 +30,7 @@ module Samba::HttpClient
         }
         JSON
 
-      WebMock.stub(:POST, Samba.settings.token_introspection_endpoint)
+      WebMock.stub(:POST, Samba.settings.oauth_token_introspection_endpoint)
         .with(headers: {"Content-Type" => "application/x-www-form-urlencoded"})
         .to_return(body: body)
 
@@ -42,7 +42,7 @@ module Samba::HttpClient
       user : User,
       token : String,
       scopes = ["sso"],
-      client_id = Samba.settings.client.try(&.[:id]),
+      client_id = Samba.settings.oauth_client.try(&.[:id]),
       session = Lucky::Session.new
     )
       browser_auth(user.remote_id, token, scopes, client_id, session)
@@ -52,7 +52,7 @@ module Samba::HttpClient
       remote_id,
       token : String,
       scopes = ["sso"],
-      client_id = Samba.settings.client.try(&.[:id]),
+      client_id = Samba.settings.oauth_client.try(&.[:id]),
       session = Lucky::Session.new
     )
       scope = scopes.is_a?(Indexable) ? scopes.join(' ') : scopes
@@ -68,7 +68,7 @@ module Samba::HttpClient
         }
         JSON
 
-      WebMock.stub(:POST, Samba.settings.token_introspection_endpoint)
+      WebMock.stub(:POST, Samba.settings.oauth_token_introspection_endpoint)
         .with(headers: {"Content-Type" => "application/x-www-form-urlencoded"})
         .to_return(body: body)
 

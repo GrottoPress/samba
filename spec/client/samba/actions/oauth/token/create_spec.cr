@@ -2,7 +2,7 @@ require "../../../../spec_helper"
 
 describe Samba::Oauth::Token::Create do
   it "creates OAuth token" do
-    client = Samba.settings.client.not_nil!
+    client = Samba.settings.oauth_client.not_nil!
     code = "code"
     code_verifier = "code-verifier"
     state = "state"
@@ -25,7 +25,7 @@ describe Samba::Oauth::Token::Create do
       }
       JSON
 
-    WebMock.stub(:POST, Samba.settings.token_endpoint)
+    WebMock.stub(:POST, Samba.settings.oauth_token_endpoint)
       .with(
         headers: {"Content-Type" => "application/x-www-form-urlencoded"},
         body: URI::Params.encode({

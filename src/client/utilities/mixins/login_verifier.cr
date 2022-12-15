@@ -28,7 +28,7 @@ module Samba::LoginVerifier
 
     getter? oauth_token : OauthToken? do
       raw_token?.try do |token|
-        Samba.settings.verify_token.call(
+        Samba.settings.verify_oauth_token.call(
           OauthToken.cache_key(token),
           ->{ OauthToken.verify(token) }
         )
@@ -40,8 +40,8 @@ module Samba::LoginVerifier
     end
 
     private def client_ids
-      Samba.settings.client_ids.tap do |ids|
-        Samba.settings.client.try do |client|
+      Samba.settings.oauth_client_ids.tap do |ids|
+        Samba.settings.oauth_client.try do |client|
           ids << client[:id] unless ids.includes?(client[:id])
         end
       end

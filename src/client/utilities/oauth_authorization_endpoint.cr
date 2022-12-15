@@ -5,7 +5,7 @@ module Samba::OauthAuthorizationEndpoint
       verifier = Random::Secure.urlsafe_base64(32)
 
       set_session(session, state, verifier)
-      "#{Samba.settings.authorization_endpoint}?#{params(state, verifier)}"
+      "#{Samba.settings.oauth_authorization_endpoint}?#{params(state, verifier)}"
     end
 
     def self.redirect_url(session)
@@ -18,12 +18,15 @@ module Samba::OauthAuthorizationEndpoint
     end
 
     private def params(state, verifier)
-      client = Samba.settings.client.not_nil!
+      client = Samba.settings.oauth_client.not_nil!
 
       URI::Params.build do |form|
         form.add("client_id", client[:id])
         form.add("code_challenge", code_challenge(verifier))
-        form.add("code_challenge_method", Samba.settings.code_challenge_method)
+        form.add(
+          "code_challenge_method",
+          Samba.settings.oauth_code_challenge_method
+        )
         form.add("redirect_uri", client[:redirect_uri])
         form.add("response_type", "code")
         form.add("scope", Samba::SCOPE)
@@ -32,7 +35,7 @@ module Samba::OauthAuthorizationEndpoint
     end
 
     private def code_challenge(verifier)
-      return verifier if Samba.settings.code_challenge_method == "plain"
+      return verifier if Samba.settings.oauth_code_challenge_method == "plain"
 
       digest = Digest::SHA256.digest(verifier)
       Base64.urlsafe_encode(digest, false)

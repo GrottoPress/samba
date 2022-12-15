@@ -84,7 +84,7 @@ module Samba::Oauth::Token::Create
     end
 
     private def client
-      Samba.settings.client.not_nil!
+      Samba.settings.oauth_client.not_nil!
     end
   end
 end

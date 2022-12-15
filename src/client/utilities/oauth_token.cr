@@ -57,7 +57,7 @@ module Samba::OauthToken
       redirect_uri : String,
       code_verifier : String?
     )
-      endpoint = Samba.settings.token_endpoint
+      endpoint = Samba.settings.oauth_token_endpoint
 
       params = URI::Params.build do |form|
         form.add("code", code)
@@ -77,8 +77,8 @@ module Samba::OauthToken
     end
 
     def self.verify(token : String) : self
-      client = Samba.settings.client
-      endpoint = Samba.settings.token_introspection_endpoint
+      client = Samba.settings.oauth_client
+      endpoint = Samba.settings.oauth_token_introspection_endpoint
 
       form = URI::Params.new
       form.add("token", token)

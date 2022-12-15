@@ -15,7 +15,7 @@ describe Samba::LoginVerifier do
   it "requires 'sso' scope" do
     WebMock.allow_net_connect = false
 
-    client = Samba.settings.client
+    client = Samba.settings.oauth_client
     client_id = client.try(&.[:id])
     client_secret = client.try(&.[:secret])
 
@@ -35,7 +35,7 @@ describe Samba::LoginVerifier do
       }
       JSON
 
-    WebMock.stub(:POST, Samba.settings.token_introspection_endpoint)
+    WebMock.stub(:POST, Samba.settings.oauth_token_introspection_endpoint)
       .with(
         headers: {"Content-Type" => "application/x-www-form-urlencoded"},
         body: URI::Params.encode({
@@ -52,7 +52,7 @@ describe Samba::LoginVerifier do
   it "requires trusted client ID" do
     WebMock.allow_net_connect = false
 
-    client = Samba.settings.client
+    client = Samba.settings.oauth_client
     client_id = client.try(&.[:id])
     client_secret = client.try(&.[:secret])
 
@@ -72,7 +72,7 @@ describe Samba::LoginVerifier do
       }
       JSON
 
-    WebMock.stub(:POST, Samba.settings.token_introspection_endpoint)
+    WebMock.stub(:POST, Samba.settings.oauth_token_introspection_endpoint)
       .with(
         headers: {"Content-Type" => "application/x-www-form-urlencoded"},
         body: URI::Params.encode({

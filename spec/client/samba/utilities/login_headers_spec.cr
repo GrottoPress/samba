@@ -4,7 +4,7 @@ describe Samba::LoginHeaders do
   it "verifies OAuth access token" do
     WebMock.allow_net_connect = false
 
-    client = Samba.settings.client
+    client = Samba.settings.oauth_client
     client_id = client.try(&.[:id])
     client_secret = client.try(&.[:secret])
 
@@ -24,7 +24,7 @@ describe Samba::LoginHeaders do
       }
       JSON
 
-    WebMock.stub(:POST, Samba.settings.token_introspection_endpoint)
+    WebMock.stub(:POST, Samba.settings.oauth_token_introspection_endpoint)
       .with(
         headers: {"Content-Type" => "application/x-www-form-urlencoded"},
         body: URI::Params.encode({
