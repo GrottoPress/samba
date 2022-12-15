@@ -42,6 +42,8 @@ module Samba::LoginPipes
       continue
     end
 
+    # This sends out a new authorization code request that kicks off the
+    # whole auto login process
     def do_require_logged_in_failed
       redirect to: OauthAuthorizationEndpoint.redirect_url(session)
     end
