@@ -1,8 +1,8 @@
 module Samba::CreateOauthToken
   macro included
-    param_key :oauth_token
+    include Shield::SetSession
 
-    needs session : Lucky::Session?
+    param_key :oauth_token
 
     attribute client_id : String
     attribute client_secret : String
@@ -17,7 +17,6 @@ module Samba::CreateOauthToken
       validate_redirect_uri_required
     end
 
-    after_run set_login_session
     after_run create_user
 
     def run
@@ -53,7 +52,7 @@ module Samba::CreateOauthToken
       )
     end
 
-    private def set_login_session(oauth_token : OauthToken)
+    private def set_session(oauth_token : OauthToken)
       client_id.value.try do |value|
         session.try do |_session|
           return unless oauth_token.client_authorized?(value)
