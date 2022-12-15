@@ -10,6 +10,6 @@ abstract class PublicApi < Lucky::Action
 
   def bearer_scope : String
     name = BearerScope.new(self.class).name
-    "samba.#{name.lchop("api.")}"
+    "client.#{name.lchop("api.")}"
   end
 end

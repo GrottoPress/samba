@@ -9,16 +9,22 @@ module Samba::Api::Oauth::Token::Create
     # end
 
     def do_run_operation_succeeded(operation, bearer_login)
-      data = previous_def
+      data = {
+        access_token: BearerLoginCredentials.new(operation, bearer_login),
+        expires_in: bearer_login.status.span?.try(&.total_seconds.to_i64),
+        scope: bearer_login.scopes.join(' '),
+        token_type: "Bearer"
+      }
 
       if bearer_login.scopes.includes?(Samba::SCOPE)
         data = data.merge({
           aud: [bearer_login.oauth_client_id.try(&.to_s)],
           azp: bearer_login.oauth_client_id.try(&.to_s),
           iss: Lucky::RouteHelper.settings.base_uri,
-          refresh_token: nil, # Unsets refresh token
           sub: bearer_login.user_id.to_s,
         })
+      else
+        data = data.merge({refresh_token: operation.credentials.try(&.to_s)})
       end
 
       json(data)

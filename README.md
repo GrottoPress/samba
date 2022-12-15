@@ -51,11 +51,17 @@
 Create a `.env` file:
 
 ```env
-CACHE_REDIS_URL=redis://localhost:6379/0
-DATABASE_URL=postgres://postgres:password@localhost:5432/samba_spec
+CLIENT_CACHE_REDIS_URL=redis://localhost:6379/0
+CLIENT_DATABASE_URL=postgres://postgres:password@localhost:5432/samba_client_spec
+SERVER_DATABASE_URL=postgres://postgres:password@localhost:5432/samba_server_spec
 ```
 
-Update the file with your own details. Then run tests with `crystal spec`.
+Update the file with your own details, then run tests as follows:
+
+- Run client tests with `crystal spec spec/client`
+- Run server tests with `crystal spec spec/server`
+
+*Do not run client and server tests together; you would get a compile error.*
 
 ## Contributing
 

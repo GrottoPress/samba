@@ -19,7 +19,7 @@ describe Samba::BearerLoginVerifier do
     client_id = client.try(&.[:id])
     client_secret = client.try(&.[:secret])
 
-    scope = "samba.current_user.show"
+    scope = "client.current_user.show"
     sub = "5678"
     token = "g7h8i9"
 

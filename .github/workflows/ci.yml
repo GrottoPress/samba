@@ -68,9 +68,14 @@ jobs:
         run: sudo apt -y install redis
       - name: Start Redis
         run: sudo systemctl start redis
-      - name: Run tests
+      - name: Run client tests
         env:
-          CACHE_REDIS_URL: redis://localhost:6379/0
-          DATABASE_URL: postgres://postgres:password@localhost:5432/samba_spec
+          CLIENT_CACHE_REDIS_URL: redis://localhost:6379/0
+          CLIENT_DATABASE_URL: postgres://postgres:password@localhost:5432/samba_client_spec
           SKIP_LOAD_ENV: "true"
-        run: crystal spec --error-on-warnings
+        run: crystal spec --error-on-warnings spec/client
+      - name: Run server tests
+        env:
+          SERVER_DATABASE_URL: postgres://postgres:password@localhost:5432/samba_server_spec
+          SKIP_LOAD_ENV: "true"
+        run: crystal spec --error-on-warnings spec/server

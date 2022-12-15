@@ -1,5 +1,5 @@
 AppDatabase.configure do |settings|
-  settings.credentials = Avram::Credentials.parse(ENV["DATABASE_URL"])
+  settings.credentials = Avram::Credentials.parse(ENV["CLIENT_DATABASE_URL"])
 end
 
 Avram.configure do |settings|

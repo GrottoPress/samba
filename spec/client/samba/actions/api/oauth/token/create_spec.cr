@@ -14,7 +14,7 @@ describe Samba::Api::Oauth::Token::Create do
       {
         "access_token": "#{access_token}",
         "azp": "#{client_id}",
-        "scope": "samba.current_user.show sso",
+        "scope": "client.current_user.show sso",
         "sub": "#{sub}",
         "token_type": "Bearer"
       }

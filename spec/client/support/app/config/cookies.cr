@@ -1,7 +1,7 @@
 require "./server"
 
 Lucky::Session.configure do |settings|
-  settings.key = "_samba_spec_session"
+  settings.key = "_samba-client-spec-session"
 end
 
 Lucky::CookieJar.configure do |settings|

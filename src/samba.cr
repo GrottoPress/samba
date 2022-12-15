@@ -8,8 +8,6 @@ module Samba
     Server
   end
 
-  Habitat.create { }
-
   SCOPE = "sso"
 
   def self.role

@@ -18,7 +18,7 @@ describe Samba::LoginHeaders do
         "active": true,
         "client_id": "#{client_id}",
         "iss": "https://id.grottopress.com",
-        "scope": "sso samba.current_user.show",
+        "scope": "sso client.current_user.show",
         "sub": "#{sub}",
         "token_type": "Bearer"
       }

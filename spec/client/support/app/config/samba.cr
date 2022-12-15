@@ -1,5 +1,5 @@
 Samba.configure do |settings|
-  settings.authorization_endpoint = "https://my.app/oauth/authorize"
+  settings.authorization_endpoint = "https://samba.server/oauth/authorize"
 
   settings.client = {
     id: "client-abc123",
@@ -9,8 +9,10 @@ Samba.configure do |settings|
 
   settings.client_ids = ["client-def456"]
 
-  settings.token_endpoint = "https://my.app/oauth/token"
-  settings.token_introspection_endpoint = "https://my.app/oauth/token/verify"
+  settings.token_endpoint = "https://samba.server/oauth/token"
+
+  settings.token_introspection_endpoint =
+    "https://samba.server/oauth/token/verify"
 
   settings.verify_token = ->(key : String, verify : -> OauthToken) do
     Dude.get(OauthToken, key, 30.seconds) { verify.call }

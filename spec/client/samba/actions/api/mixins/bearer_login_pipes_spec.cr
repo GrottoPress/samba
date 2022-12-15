@@ -57,14 +57,14 @@ describe Samba::Api::BearerLoginPipes do
 
       response.headers["WWW-Authenticate"]?
         .should(eq %(Bearer error="insufficient_scope", \
-          scope="samba.current_user.show"))
+          scope="client.current_user.show"))
     end
   end
 
   describe "#require_logged_out" do
     it "requires user to be logged out" do
       client = ApiClient.new
-      client.api_auth(5678, "g7h8i9", "samba.current_user.create")
+      client.api_auth(5678, "g7h8i9", "client.current_user.create")
 
       response = client.exec(Api::CurrentUser::Create)
 
@@ -76,7 +76,7 @@ describe Samba::Api::BearerLoginPipes do
     it "checks authorization" do
       user = UserFactory.create
 
-      client = ApiClient.new.api_auth(user, "g7h8i9", "samba.users.show")
+      client = ApiClient.new.api_auth(user, "g7h8i9", "client.users.show")
       response = client.exec(Api::Users::Show.with(user_id: user.id))
 
       response.should send_json(

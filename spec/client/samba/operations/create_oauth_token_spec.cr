@@ -16,7 +16,7 @@ describe Samba::CreateOauthToken do
       {
         "access_token": "#{access_token}",
         "azp": "#{client_id}",
-        "scope": "sso samba.current_user.show sika.logins.show",
+        "scope": "sso client.current_user.show sika.logins.show",
         "sub": "#{sub}",
         "token_type": "Bearer"
       }
