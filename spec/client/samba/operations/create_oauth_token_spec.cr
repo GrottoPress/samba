@@ -70,7 +70,7 @@ describe Samba::CreateOauthToken do
     ) do |operation, oauth_token|
       oauth_token.should be_nil
 
-      operation.code.should have_error("operation.error.code_required")
+      operation.code.should have_error("operation.error.oauth.code_required")
     end
   end
 
@@ -88,7 +88,7 @@ describe Samba::CreateOauthToken do
       oauth_token.should be_nil
 
       operation.client_id
-        .should(have_error "operation.error.client_id_required")
+        .should(have_error "operation.error.oauth.client_id_required")
     end
   end
 
@@ -105,7 +105,7 @@ describe Samba::CreateOauthToken do
       oauth_token.should be_nil
 
       operation.client_secret
-        .should(have_error "operation.error.client_secret_required")
+        .should(have_error "operation.error.oauth.client_secret_required")
     end
   end
 
@@ -122,7 +122,7 @@ describe Samba::CreateOauthToken do
       oauth_token.should be_nil
 
       operation.redirect_uri
-        .should(have_error "operation.error.redirect_uri_required")
+        .should(have_error "operation.error.oauth.redirect_uri_required")
     end
   end
 end

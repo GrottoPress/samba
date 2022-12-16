@@ -134,6 +134,19 @@
 
    This action is used for Single Sign Out. All a *Samba* Client has to do is point its logout link to this URL.
 
+1. Set up i18n:
+
+   *Samba* uses *Rex* for i18n. See <https://github.com/GrottoPress/rex>.
+
+   Use the following as a guide to set up translations:
+
+   ```yaml
+     action:
+       current_login:
+         destroy:
+           failure: Something went wrong
+           success: You have logged out successfully
+
 ### The Client
 
 Each *Samba* Client must be registered with the *Samba* Server as a *confidential* OAuth client, if it is a full stack monolith.
@@ -318,6 +331,37 @@ If a *Samba* Client is an API backend, each of its frontend apps, rather, must b
    ```
 
    This action must match the redirect URI registered for the client.
+
+1. Set up i18n:
+
+   *Samba* uses *Rex* for i18n. See <https://github.com/GrottoPress/rex>.
+
+   Use the following as a guide to set up translations:
+
+   ```yaml
+     action:
+       pipe:
+         authorization_failed: You are not allowed to perform this action
+         not_logged_in: You are not logged in
+         not_logged_out: You are logged in
+
+         oauth:
+           client_not_authorized: Client is not allowed to perform this action
+           code_required: Authorization code is required
+           sso_only: Only authentication (SSO) is supported
+           state_invalid: Forged response detected!
+
+     operation:
+       error:
+         remote_id_required: Remote ID is required
+         remote_id_exists: Remote user has already been added
+
+         oauth:
+           code_required: Authorization code is required
+           client_id_required: Client ID is required
+           client_secret_required: Client secret is required
+           redirect_uri_required: Redirect URI is required
+   ```
 
 ### Federation
 

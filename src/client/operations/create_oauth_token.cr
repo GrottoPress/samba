@@ -24,22 +24,23 @@ module Samba::CreateOauthToken
     end
 
     private def validate_code_required
-      validate_required code, message: Rex.t(:"operation.error.code_required")
+      validate_required code,
+        message: Rex.t(:"operation.error.oauth.code_required")
     end
 
     private def validate_client_id_required
       validate_required client_id,
-        message: Rex.t(:"operation.error.client_id_required")
+        message: Rex.t(:"operation.error.oauth.client_id_required")
     end
 
     private def validate_client_secret_required
       validate_required client_secret,
-        message: Rex.t(:"operation.error.client_secret_required")
+        message: Rex.t(:"operation.error.oauth.client_secret_required")
     end
 
     private def validate_redirect_uri_required
       validate_required redirect_uri,
-        message: Rex.t(:"operation.error.redirect_uri_required")
+        message: Rex.t(:"operation.error.oauth.redirect_uri_required")
     end
 
     private def create_token

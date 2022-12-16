@@ -62,7 +62,7 @@ module Samba::Oauth::Token::Create
       json({
         error: "invalid_client",
         error_description: Rex.t(
-          :"action.pipe.client_not_authorized",
+          :"action.pipe.oauth.client_not_authorized",
           client_id: client[:id],
           azp: oauth_client.try(&.azp)
         ),
@@ -72,7 +72,7 @@ module Samba::Oauth::Token::Create
     private def invalid_scope_response
       json({
         error: "invalid_scope",
-        error_description: Rex.t(:"action.pipe.sso_only")
+        error_description: Rex.t(:"action.pipe.oauth.sso_only")
       }, 400)
     end
 
