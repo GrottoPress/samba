@@ -9,8 +9,16 @@ describe Samba::LoginPipes do
       response.headers["X-Logged-In"]?.should eq("false")
       response.headers["Location"]?.should_not be_nil
 
-      response.headers["Location"]
-        .should(start_with Samba.settings.oauth_authorization_endpoint)
+      client = Samba.settings.oauth_client.not_nil!
+
+      pattern = "#{Samba.settings.oauth_authorization_endpoint}\\?\
+        client_id=#{client[:id]}&\
+        code_challenge=.+&\
+        code_challenge_method=#{Samba.settings.oauth_code_challenge_method}&\
+        redirect_uri=#{URI.encode_www_form(client[:redirect_uri])}&\
+        response_type=code&scope=sso&state=.+"
+
+      response.headers["Location"].should match(/^#{pattern}$/)
     end
 
     it "verifies access token" do
@@ -33,8 +41,16 @@ describe Samba::LoginPipes do
       response.headers["X-Logged-In"]?.should eq("false")
       response.headers["Location"]?.should_not be_nil
 
-      response.headers["Location"]
-        .should(start_with Samba.settings.oauth_authorization_endpoint)
+      client = Samba.settings.oauth_client.not_nil!
+
+      pattern = "#{Samba.settings.oauth_authorization_endpoint}\\?\
+        client_id=#{client[:id]}&\
+        code_challenge=.+&\
+        code_challenge_method=#{Samba.settings.oauth_code_challenge_method}&\
+        redirect_uri=#{URI.encode_www_form(client[:redirect_uri])}&\
+        response_type=code&scope=sso&state=.+"
+
+      response.headers["Location"].should match(/^#{pattern}$/)
     end
   end
 
