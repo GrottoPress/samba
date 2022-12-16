@@ -418,6 +418,8 @@ See *Shield*'s [documentation](https://github.com/GrottoPress/shield/tree/master
 
 #### Setting up:
 
+1. Install [`manastech/webmock.cr`](https://github.com/manastech/webmock.cr) as a development dependency
+
 1. Require *Samba* Client spec:
 
    ```crystal
