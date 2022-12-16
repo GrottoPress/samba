@@ -188,6 +188,16 @@ If a *Samba* Client is an API backend, each of its frontend apps, rather, must b
      # token instrospection endpoint, at least.
      settings.server_api_token = "g4h5i6"
      # ...
+
+     # A Client sends an authorization code request with the "sso" scope to
+     # signal to the Server this is an authentication request.
+     #
+     # Specify additional scopes to request when sending the authorization code
+     # request.
+     #
+     # (You'd typically want access to some sort of a user info endpoint
+     # that the Server exposes)
+     settings.login_token_scopes = ["server.current_user.show"]
    end
    ```
 

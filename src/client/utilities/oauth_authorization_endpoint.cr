@@ -26,7 +26,7 @@ module Samba::OauthAuthorizationEndpoint
         form.add("code_challenge_method", code_challenge_method)
         form.add("redirect_uri", client[:redirect_uri])
         form.add("response_type", "code")
-        form.add("scope", Samba::SCOPE)
+        form.add("scope", token_scopes.join(' '))
         form.add("state", state)
       end
     end
@@ -40,6 +40,12 @@ module Samba::OauthAuthorizationEndpoint
 
     private def code_challenge_method
       Samba.settings.oauth_code_challenge_method
+    end
+
+    private def token_scopes
+      Samba.settings.login_token_scopes.tap do |scopes|
+        scopes << Samba::SCOPE unless scopes.includes?(Samba::SCOPE)
+      end
     end
   end
 end
