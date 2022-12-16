@@ -23,10 +23,7 @@ module Samba::OauthAuthorizationEndpoint
       URI::Params.build do |form|
         form.add("client_id", client[:id])
         form.add("code_challenge", code_challenge(verifier))
-        form.add(
-          "code_challenge_method",
-          Samba.settings.oauth_code_challenge_method
-        )
+        form.add("code_challenge_method", code_challenge_method)
         form.add("redirect_uri", client[:redirect_uri])
         form.add("response_type", "code")
         form.add("scope", Samba::SCOPE)
@@ -35,10 +32,14 @@ module Samba::OauthAuthorizationEndpoint
     end
 
     private def code_challenge(verifier)
-      return verifier if Samba.settings.oauth_code_challenge_method == "plain"
+      return verifier if code_challenge_method == "plain"
 
       digest = Digest::SHA256.digest(verifier)
       Base64.urlsafe_encode(digest, false)
+    end
+
+    private def code_challenge_method
+      Samba.settings.oauth_code_challenge_method
     end
   end
 end
