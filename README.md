@@ -406,6 +406,97 @@ Note, however, that *Samba* itself cannot be used to implement a "Log in with Gi
 
 If you decide to go federated, only your *Samba* Server should interact with services outside your organization. The server may be registered with the third-party provider as an OAuth client for such a purpose.
 
+## Testing
+
+### The Server
+
+See *Shield*'s [documentation](https://github.com/GrottoPress/shield/tree/master/docs) for details.
+
+### The Client
+
+#### Setting up:
+
+1. Require *Samba* Client spec:
+
+   ```crystal
+   # ->>> spec/spec_helper.cr
+
+   # ...
+   require "samba/spec/client"
+   # ...
+   ```
+
+   This pulls in various types and helpers for specs.
+
+1. Set up API client:
+
+   ```crystal
+   # ->>> spec/support/api_client.cr
+
+   class ApiClient < Lucky::BaseHTTPClient
+     def initialize
+       super
+       headers("Content-Type": "application/json")
+     end
+   end
+   ```
+
+   *Samba* comes with `Samba::HttpClient`, which enables API and browser authentication in Client specs.
+
+#### Authenticating:
+
+- Browser authentication
+
+  ```crystal
+  client = ApiClient.new
+
+  # Creates a user and logs them in with the provided token.
+  # You may optionally pass in `scopes`, `client_id` and `session`.
+  client.browser_auth(remote_id, token)
+
+  # Logs in a user that is already created.
+  # You may optionally pass in `scopes`, `client_id` and `session`.
+  client.browser_auth(user, token)
+
+  # Go ahead and make requests to routes with
+  # the authenticated client.
+  client.exec(CurrentUser::Show)
+  ```
+
+- API authentication
+
+  ```crystal
+  client = ApiClient.new
+
+  # Creates a user and logs them in with the provided token.
+  # You may optionally pass in `scopes`, `client_id` and `session`.
+  client.api_auth(remote_id, token)
+
+  # Logs in a user that is already created.
+  # You may optionally pass in `scopes`, `client_id` and `session`.
+  client.api_auth(user, token)
+
+  # Go ahead and make requests to routes with
+  # the authenticated client.
+  client.exec(Api::CurrentUser::Show)
+  ```
+
+- Set cookie header from session
+
+  ```crystal
+  client = ApiClient.new
+  session = Lucky::Session.new
+
+  session.set(:one, "one")
+  session.set(:two, "two")
+
+  # Sets "Cookie" header from session
+  client.set_cookie_from_session(session)
+
+  # Go ahead and make requests.
+  client.exec(Numbers::Show)
+  ```
+
 ## Development
 
 Create a `.env` file:
