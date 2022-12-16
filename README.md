@@ -179,6 +179,8 @@ If a *Samba* Client is an API backend, each of its frontend apps, rather, must b
 
    Samba.configure do |settings|
      # ...
+     # Set to `nil` if this app is an API backend. The frontend app should be
+     # doing the authorization code request.
      settings.oauth_authorization_endpoint = "https://samba.server/oauth/authorize"
 
      # The OAuth client details

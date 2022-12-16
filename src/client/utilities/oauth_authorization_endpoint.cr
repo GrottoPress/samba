@@ -1,11 +1,12 @@
 module Samba::OauthAuthorizationEndpoint
   macro included
     def redirect_url(session : Lucky::Session) : String
+      endpoint = Samba.settings.oauth_authorization_endpoint.not_nil!
       state = Random::Secure.urlsafe_base64(32)
       verifier = Random::Secure.urlsafe_base64(32)
 
       set_session(session, state, verifier)
-      "#{Samba.settings.oauth_authorization_endpoint}?#{params(state, verifier)}"
+      "#{endpoint}?#{params(state, verifier)}"
     end
 
     def self.redirect_url(session)
