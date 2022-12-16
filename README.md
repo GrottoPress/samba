@@ -102,7 +102,7 @@
    ```crystal
    # ->>> src/actions/oauth/authorization/create.cr
 
-   Oauth::Authorization::Create < BrowserAction
+   class Oauth::Authorization::Create < BrowserAction
      # ...
      include Samba::Oauth::Authorization::Create
 
