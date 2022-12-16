@@ -17,24 +17,9 @@ module Samba::HttpClient
       scopes = ["sso"],
       client_id = Samba.settings.oauth_client.try(&.[:id])
     )
-      scope = scopes.is_a?(Indexable) ? scopes.join(' ') : scopes
-
-      body = <<-JSON
-        {
-          "active": true,
-          "client_id": "#{client_id}",
-          "iss": "https://id.grottopress.com",
-          "scope": "#{scope}",
-          "sub": "#{remote_id}",
-          "token_type": "Bearer"
-        }
-        JSON
-
-      WebMock.stub(:POST, Samba.settings.oauth_token_introspection_endpoint)
-        .with(headers: {"Content-Type" => "application/x-www-form-urlencoded"})
-        .to_return(body: body)
-
       create_user(remote_id)
+      mock_request(remote_id, scopes, client_id)
+
       headers("Authorization": "Bearer #{token}")
     end
 
@@ -55,29 +40,11 @@ module Samba::HttpClient
       client_id = Samba.settings.oauth_client.try(&.[:id]),
       session = Lucky::Session.new
     )
-      scope = scopes.is_a?(Indexable) ? scopes.join(' ') : scopes
-
-      body = <<-JSON
-        {
-          "active": true,
-          "client_id": "#{client_id}",
-          "iss": "https://id.grottopress.com",
-          "scope": "#{scope}",
-          "sub": "#{remote_id}",
-          "token_type": "Bearer"
-        }
-        JSON
-
-      WebMock.stub(:POST, Samba.settings.oauth_token_introspection_endpoint)
-        .with(headers: {"Content-Type" => "application/x-www-form-urlencoded"})
-        .to_return(body: body)
+      create_user(remote_id)
+      mock_request(remote_id, scopes, client_id)
 
       LoginSession.new(session).set(token)
-
-      create_user(remote_id)
       set_cookie_from_session(session)
-
-      self
     end
 
     def set_cookie_from_session(session : Lucky::Session)
@@ -102,6 +69,31 @@ module Samba::HttpClient
     private def create_user(remote_id) : Nil
       return if UserQuery.new.remote_id(remote_id).any?
       UserFactory.create &.remote_id(remote_id)
+    end
+
+    private def mock_request(remote_id, scopes, client_id)
+      scope = scopes.is_a?(Indexable) ? scopes.join(' ') : scopes
+
+      body = <<-JSON
+        {
+          "active": true,
+          "client_id": "#{client_id}",
+          "iss": "https://id.grottopress.com",
+          "scope": "#{scope}",
+          "sub": "#{remote_id}",
+          "token_type": "Bearer"
+        }
+        JSON
+
+      headers = {"Content-Type" => "application/x-www-form-urlencoded"}
+
+      if api_token = Samba.settings.server_api_token
+        headers["Authorization"] = "Bearer #{api_token}"
+      end
+
+      WebMock.stub(:POST, Samba.settings.oauth_token_introspection_endpoint)
+        .with(headers: headers)
+        .to_return(body: body)
     end
   end
 end
