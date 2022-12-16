@@ -40,7 +40,7 @@
    # ...
    ```
 
-1. Require *presets*, right after *Shield*'s presets:
+1. Require *presets*, right after models:
 
    ```crystal
    # ->>> src/app.cr
@@ -49,7 +49,6 @@
    require "./models/base_model"
    require "./models/**"
 
-   require "shield/presets"
    require "samba/presets/server"
    # ...
    ```

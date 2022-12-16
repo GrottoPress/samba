@@ -1,5 +1,7 @@
 require "../server"
 
+require "shield/presets"
+
 class EndCurrentOauthLogin < Login::SaveOperation
   include Samba::EndOauthLogin
 end

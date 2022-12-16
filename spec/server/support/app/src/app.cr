@@ -10,7 +10,6 @@ require "./app_database"
 require "./models/base_model"
 require "./models/**"
 
-require "shield/presets"
 require "../../../../../src/presets/server"
 
 # require "./queries/**"
