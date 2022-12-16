@@ -294,7 +294,7 @@ If a *Samba* Client is an API backend, each of its frontend apps, rather, must b
    ```crystal
    # ->>> db/migrations/XXXXXXXXXXXXXX_create_users.cr
 
-   class CreateLogins::VXXXXXXXXXXXXXX < Avram::Migrator::Migration::V1
+   class CreateUsers::VXXXXXXXXXXXXXX < Avram::Migrator::Migration::V1
      def migrate
        create :users do
          # ...
