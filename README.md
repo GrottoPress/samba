@@ -454,16 +454,15 @@ See *Shield*'s [documentation](https://github.com/GrottoPress/shield/tree/master
   ```crystal
   client = ApiClient.new
 
-  # Creates a user and logs them in with the provided token.
+  # Creates a user and logs them in with a fake token.
   # You may optionally pass in `scopes`, `client_id` and `session`.
-  client.browser_auth(remote_id, token)
+  client.browser_auth(remote_id)
 
   # Logs in a user that is already created.
   # You may optionally pass in `scopes`, `client_id` and `session`.
-  client.browser_auth(user, token)
+  client.browser_auth(user)
 
-  # Go ahead and make requests to routes with
-  # the authenticated client.
+  # Go ahead and make requests to routes with the authenticated client.
   client.exec(CurrentUser::Show)
   ```
 
@@ -472,13 +471,13 @@ See *Shield*'s [documentation](https://github.com/GrottoPress/shield/tree/master
   ```crystal
   client = ApiClient.new
 
-  # Creates a user and logs them in with the provided token.
+  # Creates a user and logs them in with a fake token.
   # You may optionally pass in `scopes`, `client_id` and `session`.
-  client.api_auth(remote_id, token)
+  client.api_auth(remote_id)
 
   # Logs in a user that is already created.
   # You may optionally pass in `scopes`, `client_id` and `session`.
-  client.api_auth(user, token)
+  client.api_auth(user)
 
   # Go ahead and make requests to routes with
   # the authenticated client.

@@ -34,7 +34,7 @@ describe Samba::LoginPipes do
         .with(headers: {"Content-Type" => "application/x-www-form-urlencoded"})
         .to_return(body: body)
 
-      client = ApiClient.new.browser_auth(user, "a1b2c3")
+      client = ApiClient.new.browser_auth(user)
       response = client.exec(CurrentUser::Show)
 
       response.status.should eq(HTTP::Status::FOUND)
@@ -56,7 +56,7 @@ describe Samba::LoginPipes do
 
   describe "#require_logged_out" do
     it "requires user to be logged out" do
-      client = ApiClient.new.browser_auth(5678, "g7h8i9")
+      client = ApiClient.new.browser_auth(5678)
       response = client.exec(CurrentUser::Create)
 
       response.headers["X-Logged-In"]?.should eq("true")
@@ -67,7 +67,7 @@ describe Samba::LoginPipes do
     it "checks authorization" do
       user = UserFactory.create
 
-      client = ApiClient.new.browser_auth(user, "g7h8i9")
+      client = ApiClient.new.browser_auth(user)
       response = client.exec(Users::Show.with(user_id: user.id))
 
       response.headers["X-Authorized"]?.should eq("false")

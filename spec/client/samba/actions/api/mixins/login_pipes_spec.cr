@@ -54,7 +54,7 @@ describe Samba::Api::LoginPipes do
         .with(headers: {"Content-Type" => "application/x-www-form-urlencoded"})
         .to_return(body: body)
 
-      client = ApiClient.new.api_auth(user, "a1b2c3")
+      client = ApiClient.new.api_auth(user)
 
       response = client.exec(Spec::CurrentUser::Show)
 
@@ -69,11 +69,7 @@ describe Samba::Api::LoginPipes do
     it "requires user to be logged out" do
       client = ApiClient.new
 
-      client.api_auth(
-        5678,
-        "g7h8i9",
-        client_id: Samba.settings.oauth_client_ids[0]
-      )
+      client.api_auth(5678, client_id: Samba.settings.oauth_client_ids[0])
 
       response = client.exec(Spec::CurrentUser::Create)
 
@@ -83,11 +79,8 @@ describe Samba::Api::LoginPipes do
 
   describe "#check_authorization" do
     it "checks authorization" do
-      client = ApiClient.new.api_auth(
-        5678,
-        "g7h8i9",
-        client_id: Samba.settings.oauth_client_ids[0]
-      )
+      client = ApiClient.new
+      client.api_auth(5678, client_id: Samba.settings.oauth_client_ids[0])
 
       response = client.exec(Spec::Users::Index)
 

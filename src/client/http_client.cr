@@ -4,38 +4,34 @@ module Samba::HttpClient
   macro included
     def api_auth(
       user : User,
-      token : String,
       scopes = ["sso"],
       client_id = Samba.settings.oauth_client.try(&.[:id])
     )
-      api_auth(user.remote_id, token, scopes, client_id)
+      api_auth(user.remote_id, scopes, client_id)
     end
 
     def api_auth(
       remote_id,
-      token : String,
       scopes = ["sso"],
       client_id = Samba.settings.oauth_client.try(&.[:id])
     )
       create_user(remote_id)
       mock_request(remote_id, scopes, client_id)
 
-      headers("Authorization": "Bearer #{token}")
+      headers("Authorization": "Bearer a1b2c3e4d5")
     end
 
     def browser_auth(
       user : User,
-      token : String,
       scopes = ["sso"],
       client_id = Samba.settings.oauth_client.try(&.[:id]),
       session = Lucky::Session.new
     )
-      browser_auth(user.remote_id, token, scopes, client_id, session)
+      browser_auth(user.remote_id, scopes, client_id, session)
     end
 
     def browser_auth(
       remote_id,
-      token : String,
       scopes = ["sso"],
       client_id = Samba.settings.oauth_client.try(&.[:id]),
       session = Lucky::Session.new
@@ -43,7 +39,7 @@ module Samba::HttpClient
       create_user(remote_id)
       mock_request(remote_id, scopes, client_id)
 
-      LoginSession.new(session).set(token)
+      LoginSession.new(session).set("a1b2c3e4d5")
       set_cookie_from_session(session)
     end
 
