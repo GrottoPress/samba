@@ -7,7 +7,7 @@ require "spec"
 require "./support/boot"
 require "./setup/**"
 
-require "shield/spec"
+require "../../src/spec/server"
 
 include Lucky::RequestExpectations
 
