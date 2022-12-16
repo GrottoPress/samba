@@ -109,6 +109,16 @@
      post "/oauth/authorization" do
        run_operation
      end
+
+     #def do_run_operation_succeeded(operation, oauth_grant)
+     #  code = OauthGrantCredentials.new(operation, oauth_grant)
+     #  redirect to: oauth_redirect_uri(code: code.to_s, state: state).to_s
+     #end
+
+     #def do_run_operation_failed(operation)
+     #  error = operation.granted.value ? "invalid_request" : "access_denied"
+     #  redirect to: oauth_redirect_uri(error: error, state: state).to_s
+     #end
      # ...
    end
    ```
@@ -128,6 +138,16 @@
      get "/logout" do
        run_operation
      end
+
+     #def do_run_operation_succeeded(operation, login)
+     #  flash.success = Rex.t(:"action.current_login.destroy.success")
+     #  redirect to: New
+     #end
+
+     #def do_run_operation_failed(operation)
+     #  flash.failure = Rex.t(:"action.current_login.destroy.failure")
+     #  redirect_back fallback: CurrentUser::Show
+     #end
      # ...
    end
    ```
@@ -326,6 +346,18 @@ If a *Samba* Client is an API backend, each of its frontend apps, rather, must b
      get "/oauth/callback" do
        run_operation
      end
+
+     #def do_run_operation_succeeded(operation, oauth_token)
+     #  return invalid_scope_response unless oauth_token.sso?
+     #  redirect_back fallback: CurrentUser::Show
+     #end
+
+     #def do_run_operation_failed(operation)
+     #  json({
+     #    error: "invalid_request",
+     #    error_description: operation.errors.first_value.first
+     #  })
+     #end
      # ...
    end
    ```
