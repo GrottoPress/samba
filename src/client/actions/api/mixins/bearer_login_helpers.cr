@@ -26,10 +26,6 @@ module Samba::Api::BearerLoginHelpers
       bearer_login_headers.verify(bearer_scope)
     end
 
-    def oauth_token : OauthToken
-      oauth_token?.not_nil!
-    end
-
     getter? oauth_token : OauthToken? do
       bearer_login_headers.oauth_token?
     end
