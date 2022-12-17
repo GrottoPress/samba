@@ -1,5 +1,3 @@
-require "webmock"
-
 module Samba::HttpClient
   macro included
     def api_auth(

@@ -1,3 +1,4 @@
+require "webmock"
 require "lucille/spec/lucky"
 require "lucille/spec/avram"
 
