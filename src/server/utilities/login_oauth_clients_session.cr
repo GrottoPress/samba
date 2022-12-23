@@ -21,6 +21,14 @@ module Samba::LoginOauthClientsSession
       self
     end
 
+    def set(oauth_grant : OauthGrant)
+      if oauth_grant.scopes.includes?(Samba::SCOPE)
+        set(oauth_grant.oauth_client_id)
+      end
+
+      self
+    end
+
     def set(client_ids : Array) : self
       unless client_ids.empty?
         @session.set(:login_oauth_client_ids, client_ids.to_json)

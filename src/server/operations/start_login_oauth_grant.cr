@@ -5,8 +5,7 @@ module Samba::StartLoginOauthGrant
 
     private def set_session(oauth_grant : OauthGrant)
       session.try do |_session|
-        return unless oauth_grant.scopes.includes?(Samba::SCOPE)
-        LoginOauthClientsSession.new(_session).set(oauth_grant.oauth_client_id)
+        LoginOauthClientsSession.new(_session).set(oauth_grant)
       end
     end
   end
