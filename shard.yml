@@ -13,8 +13,7 @@ crystal: ~> 1.6
 dependencies:
   shield:
     github: GrottoPress/shield
-    # version: ~> 0.18.0
-    branch: master
+    version: ~> 0.19.0
 
 development_dependencies:
   ameba:
