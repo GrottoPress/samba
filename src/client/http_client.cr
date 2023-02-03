@@ -61,7 +61,10 @@ module Samba::HttpClient
     end
 
     private def create_user(remote_id) : Nil
-      return if UserQuery.new.remote_id(remote_id).any?
+      remote_id.try do |id|
+        return if UserQuery.new.remote_id(id).any?
+      end
+
       UserFactory.create &.remote_id(remote_id)
     end
 

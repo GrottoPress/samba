@@ -5,15 +5,6 @@ private class SaveUser < User::SaveOperation
 end
 
 describe Samba::ValidateUser do
-  it "requires remote ID" do
-    SaveUser.create do |operation, user|
-      user.should be_nil
-
-      operation.remote_id
-        .should(have_error "operation.error.remote_id_required")
-    end
-  end
-
   it "ensures remote ID is unique" do
     new_remote_id = 456
 
