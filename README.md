@@ -193,7 +193,7 @@ If a *Samba* Client is an API backend, each of its frontend apps, rather, must b
        redirect_uri: Oauth::Callback.url_without_query_params,
        secret: "a1b2c3"
      }
-   
+
      # Additional trusted OAuth clients whose tokens are accepted for
      # authentication. If this app is an API backend, set this to all the OAuth
      # client IDs of all its frontend apps. Otherwise, leave empty.
@@ -457,11 +457,11 @@ See *Shield*'s [documentation](https://github.com/GrottoPress/shield/tree/master
   client = ApiClient.new
 
   # Creates a user and logs them in with a fake token.
-  # You may optionally pass in `scopes`, `client_id` and `session`.
+  # You may optionally pass in `scopes` and `session`.
   client.browser_auth(remote_id)
 
   # Logs in a user that is already created.
-  # You may optionally pass in `scopes`, `client_id` and `session`.
+  # You may optionally pass in `scopes` and `session`.
   client.browser_auth(user)
 
   # Go ahead and make requests to routes with the authenticated client.
@@ -474,11 +474,11 @@ See *Shield*'s [documentation](https://github.com/GrottoPress/shield/tree/master
   client = ApiClient.new
 
   # Creates a user and logs them in with a fake token.
-  # You may optionally pass in `scopes`, `client_id` and `session`.
+  # You may optionally pass in `scopes` and `session`.
   client.api_auth(remote_id)
 
   # Logs in a user that is already created.
-  # You may optionally pass in `scopes`, `client_id` and `session`.
+  # You may optionally pass in `scopes` and `session`.
   client.api_auth(user)
 
   # Go ahead and make requests to routes with

@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add support for nilable `User#remote_id` columns
 
 ### Changed
+- Remove `client_id` parameter from `Samba::HttpClient#api_auth` methods
+- Remove `client_id` parameter from `Samba::HttpClient#browser_auth` methods
+
+### Changed
 - Remove the explicit dependency on [Shield](https://github.com/GrottoPress/shield)
 
 ## [0.1.0] - 2023-01-06

@@ -69,7 +69,7 @@ describe Samba::Api::LoginPipes do
     it "requires user to be logged out" do
       client = ApiClient.new
 
-      client.api_auth(5678, client_id: Samba.settings.oauth_client_ids[0])
+      client.api_auth(5678)
 
       response = client.exec(Spec::CurrentUser::Create)
 
@@ -80,7 +80,7 @@ describe Samba::Api::LoginPipes do
   describe "#check_authorization" do
     it "checks authorization" do
       client = ApiClient.new
-      client.api_auth(5678, client_id: Samba.settings.oauth_client_ids[0])
+      client.api_auth(5678)
 
       response = client.exec(Spec::Users::Index)
 

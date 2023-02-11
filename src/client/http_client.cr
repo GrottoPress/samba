@@ -1,20 +1,12 @@
 module Samba::HttpClient
   macro included
-    def api_auth(
-      user : User,
-      scopes = ["sso"],
-      client_id = Samba.settings.oauth_client.try(&.[:id])
-    )
-      api_auth(user.remote_id, scopes, client_id)
+    def api_auth(user : User, scopes = ["sso"])
+      api_auth(user.remote_id, scopes)
     end
 
-    def api_auth(
-      remote_id,
-      scopes = ["sso"],
-      client_id = Samba.settings.oauth_client.try(&.[:id])
-    )
+    def api_auth(remote_id, scopes = ["sso"])
       create_user(remote_id)
-      mock_request(remote_id, scopes, client_id)
+      mock_request(remote_id, scopes)
 
       headers("Authorization": "Bearer a1b2c3e4d5")
     end
@@ -22,20 +14,18 @@ module Samba::HttpClient
     def browser_auth(
       user : User,
       scopes = ["sso"],
-      client_id = Samba.settings.oauth_client.try(&.[:id]),
       session = Lucky::Session.new
     )
-      browser_auth(user.remote_id, scopes, client_id, session)
+      browser_auth(user.remote_id, scopes, session)
     end
 
     def browser_auth(
       remote_id,
       scopes = ["sso"],
-      client_id = Samba.settings.oauth_client.try(&.[:id]),
       session = Lucky::Session.new
     )
       create_user(remote_id)
-      mock_request(remote_id, scopes, client_id)
+      mock_request(remote_id, scopes)
 
       LoginSession.new(session).set("a1b2c3e4d5")
       set_cookie_from_session(session)
@@ -68,8 +58,11 @@ module Samba::HttpClient
       UserFactory.create &.remote_id(remote_id)
     end
 
-    private def mock_request(remote_id, scopes, client_id)
+    private def mock_request(remote_id, scopes)
       scope = scopes.is_a?(Indexable) ? scopes.join(' ') : scopes
+
+      client_id = Samba.settings.oauth_client.try(&.[:id]) ||
+        Samba.settings.oauth_client_ids.first?
 
       body = <<-JSON
         {
