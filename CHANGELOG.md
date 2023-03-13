@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add support for nilable `User#remote_id` columns
 
 ### Changed
+- Upgrade to support *Lucky* v1.0
 - Remove `client_id` parameter from `Samba::HttpClient#api_auth` methods
 - Remove `client_id` parameter from `Samba::HttpClient#browser_auth` methods
 
