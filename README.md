@@ -16,7 +16,7 @@
 
 *You should already have an OAuth 2 authorization server. See *Shield*'s [documentation](https://github.com/GrottoPress/shield/tree/master/docs) for details.*
 
-1. Add dependencies to your `shard.yml`:
+1. Add the dependency to your `shard.yml`:
 
    ```yaml
    # ->>> shard.yml
@@ -25,8 +25,6 @@
    dependencies:
      samba:
        github: GrottoPress/samba
-     shield:
-       github: GrottoPress/shield
    # ...
    ```
 

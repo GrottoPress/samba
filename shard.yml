@@ -10,6 +10,11 @@ license: MIT
 
 crystal: ~> 1.6
 
+dependencies:
+  shield:
+    github: GrottoPress/shield
+    version: ~> 0.21.0
+
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
@@ -29,9 +34,6 @@ development_dependencies:
   lucky_env:
     github: luckyframework/lucky_env
     version: ~> 0.1.4
-  shield:
-    github: GrottoPress/shield
-    version: ~> 0.21.0
   webmock:
     github: manastech/webmock.cr
     version: ~> 0.14.0
