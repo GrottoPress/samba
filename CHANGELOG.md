@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased] - 
 
 ### Changed
-- Move `GrottoPress/shield` shard back to `dependencies`
+- Upgrade `GrottoPress/shield` shard to v1.0
 
 ## [0.2.0] - 2022-03-13
 
