@@ -28,7 +28,7 @@ describe Samba::LoginVerifier do
       {
         "active": true,
         "client_id": "#{client_id}",
-        "iss": "https://id.grottopress.com",
+        "iss": "https://samba.server",
         "scope": "client.current_user.show sika.logins.show",
         "sub": "#{sub}",
         "token_type": "Bearer"
@@ -65,7 +65,7 @@ describe Samba::LoginVerifier do
       {
         "active": true,
         "client_id": "unknown-client",
-        "iss": "https://id.grottopress.com",
+        "iss": "https://samba.server",
         "scope": "client.current_user.show",
         "sub": "#{sub}",
         "token_type": "Bearer"

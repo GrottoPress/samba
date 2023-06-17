@@ -39,7 +39,7 @@ describe Samba::Api::BearerLoginPipes do
         {
           "active": true,
           "client_id": "#{Samba.settings.oauth_client.try(&.[:id])}",
-          "iss": "https://id.grottopress.com",
+          "iss": "https://samba.server",
           "scope": "non.existent.scope",
           "sub": "#{user.remote_id}",
           "token_type": "Bearer"

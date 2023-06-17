@@ -68,7 +68,7 @@ module Samba::HttpClient
         {
           "active": true,
           "client_id": "#{client_id}",
-          "iss": "https://id.grottopress.com",
+          "iss": "https://samba.server",
           "scope": "#{scope}",
           "sub": "#{remote_id}",
           "token_type": "Bearer"
