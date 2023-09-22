@@ -13,7 +13,7 @@ module Samba::DeleteOauthLogin
         BearerLoginQuery.new
           .user_id(login.user_id)
           .oauth_client_id.in(value)
-          .where("'#{Samba::SCOPE}' = ANY(scopes)")
+          .scopes.includes(Samba::SCOPE)
           .delete
       end
     end

@@ -13,7 +13,7 @@ module Samba::EndOauthLogin
         BearerLoginQuery.new
           .user_id(login.user_id)
           .oauth_client_id.in(value)
-          .where("'#{Samba::SCOPE}' = ANY(scopes)")
+          .scopes.includes(Samba::SCOPE)
           .is_active
           .update(inactive_at: Time.utc)
       end
