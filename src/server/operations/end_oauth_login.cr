@@ -13,7 +13,10 @@ module Samba::EndOauthLogin
         BearerLoginQuery.new
           .user_id(login.user_id)
           .oauth_client_id.in(value)
-          .scopes.includes(Samba::SCOPE)
+          .where("? = ANY(#{BearerLogin.table_name}.scopes)", Samba::SCOPE)
+          # This errors in Cockroach DB:
+          #   `could not determine data type of placeholder $3 (PQ::PQError)`
+          # .scopes.includes(Samba::SCOPE)
           .is_active
           .update(inactive_at: Time.utc)
       end
