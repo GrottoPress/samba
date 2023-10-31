@@ -33,7 +33,7 @@ module Samba::OauthAuthorizationEndpoint
     end
 
     private def code_challenge(verifier)
-      return verifier if code_challenge_method == "plain"
+      return verifier if "plain" == code_challenge_method
 
       digest = Digest::SHA256.digest(verifier)
       Base64.urlsafe_encode(digest, false)
