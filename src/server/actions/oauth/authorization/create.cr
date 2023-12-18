@@ -10,7 +10,7 @@ module Samba::Oauth::Authorization::Create
       StartLoginOauthGrant.create(
         params,
         scopes: scopes,
-        type: OauthGrantType.new(OauthGrantType::AUTHORIZATION_CODE),
+        type: OauthGrantType.authorization_code,
         oauth_client: oauth_client?,
         user: user,
         session: session
