@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Fix CI issues with Lucky v1.2
+- Add support for Lucky v1.3
+- Add support for Crystal v1.13
+- Add support for Crystal v1.14
 
 ## [1.1.0] - 2023-12-18
 

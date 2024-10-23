@@ -6,8 +6,8 @@ class Spec::Api::Oauth::Token::Pipes < PublicApi
   before :oauth_require_code
   before :oauth_verify_state
 
-  param code : String?
-  param state : String?
+  param code : String? = nil
+  param state : String? = nil
 
   get "/spec/api/oauth/token/pipes" do
     json({status: "success"})

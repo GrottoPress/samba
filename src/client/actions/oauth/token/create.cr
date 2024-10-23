@@ -9,8 +9,8 @@ module Samba::Oauth::Token::Create
     before :oauth_require_code
     before :oauth_verify_state
 
-    param code : String?
-    param state : String?
+    param code : String? = nil
+    param state : String? = nil
 
     # get "/oauth/callback" do
     #   run_operation

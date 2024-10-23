@@ -2,7 +2,7 @@ module Samba::CurrentLogin::Destroy
   macro included
     skip :require_logged_out
 
-    param client_id : OauthClient::PrimaryKeyType?
+    param client_id : OauthClient::PrimaryKeyType? = nil
 
     # get "/logout" do
     #   run_operation
