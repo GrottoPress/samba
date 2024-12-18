@@ -1,7 +1,7 @@
 require "lucky_env"
 require "lucky"
 require "avram/lucky"
-require "dude"
+require "dude/redis"
 
 require "../../../../../src/client"
 
