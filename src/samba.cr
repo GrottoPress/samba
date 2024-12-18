@@ -1,6 +1,7 @@
 require "shield"
 
 require "./version"
+require "./mixins/**"
 
 module Samba
   enum Role

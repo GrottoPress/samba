@@ -17,3 +17,7 @@ end
 struct LoginOauthClientsSession
   include Samba::LoginOauthClientsSession
 end
+
+struct OauthToken
+  include Samba::OauthToken
+end

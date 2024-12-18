@@ -1,6 +1,7 @@
 module Samba::OauthToken
   macro included
     include Lucille::JSON
+    include Samba::OauthTokenCacheKey
 
     getter access_token : String?
     getter? active : Bool?
@@ -110,11 +111,6 @@ module Samba::OauthToken
       header = headers["Authorization"]?.try(&.split)
       return unless header.try(&.size) == 2 && header.try(&.[0]?) == "Bearer"
       header.try(&.[1]?)
-    end
-
-    def self.cache_key(token : String)
-      digest = Sha256Hash.new(token).hash(salt: false)
-      "oauth:tokens:#{digest}"
     end
 
     private def self.headers(api_token = nil)
