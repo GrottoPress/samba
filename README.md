@@ -248,41 +248,6 @@ If a *Samba* Client is an API backend, each of its frontend apps, rather, must b
        column remote_id : Int64 # or `Int64?`
        # ...
      end
-
-     # Since this app is within your organization, you may not want to
-     # duplicate user information across apps. The recommendation is
-     # to keep all user data at the Server, and define a method at each
-     # Client that fetches the info from the Server when needed.
-     #
-     # This example uses Dude (https://github.com/GrottoPress/dude) for
-     # caching.
-     #
-     # Another recommendation is to have all Clients share a single cache
-     # store, so that when a Client writes data to the store, other Clients
-     # can read it without going to the Server.
-     getter remote : RemoteUser? do
-       key = "users:#{remote_id}"
-       Dude.get(RemoteUser, key, 3.minutes) { remote! }
-     end
-
-     def remote! : RemoteUser?
-       # The server API token must have the needed scope to access
-       # endpoint being requested
-       token = Samba.settings.server_api_token
-       # Do a HTTP GET for the user using the server API token
-     end
-
-     # An example for using with Carbon mailer
-     #
-     include Carbon::Emailable
-
-     def email : String
-       remote.not_nil!.email.not_nil!
-     end
-
-     def emailable : Carbon::Address
-       Carbon::Address.new(email)
-     end
      # ...
    end
    ```
