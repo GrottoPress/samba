@@ -204,15 +204,19 @@ If a *Samba* Client is an API backend, each of its frontend apps, rather, must b
 
      # The challenge method to use for authorization code requests
      settings.oauth_code_challenge_method = "S256"
-   
-     # *Samba* makes an API call to the OAuth introspection endpoint whenever a
-     # request is received. This setting allows caching the response.
+
+     # By default, *Samba* makes an API call to the OAuth introspection endpoint
+     # whenever a request is received. This setting allows to tweak this
+     # behaviour.
+     #
+     # For instance, you may short-circuit the call to return a locally-saved
+     # token, or a cached response from a previous call.
      settings.verify_oauth_token = ->(key : String, verify : -> OauthToken) do
-       # This example uses Dude (https://github.com/GrottoPress/dude), but you
-       # may use any caching engine of choice
+       # This example uses Dude (https://github.com/GrottoPress/dude) to cache
+       # the response.
        #
        # `verify.call` is what actually does the API call
-       Dude.get(OauthToken, key, 30.seconds) { verify.call }
+       Dude.get(OauthToken, key, 1.hour) { verify.call }
      end
 
      # This token may be used when making token introspection requests.
