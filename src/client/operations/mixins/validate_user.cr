@@ -1,5 +1,7 @@
 module Samba::ValidateUser
   macro included
+    skip_default_validations
+
     before_save do
       validate_remote_id_unique
     end
