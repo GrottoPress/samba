@@ -216,7 +216,7 @@ If a *Samba* Client is an API backend, each of its frontend apps, rather, must b
        # the response.
        #
        # `verify.call` is what actually does the API call
-       Dude.get(OauthToken, key, 1.hour) { verify.call }
+       Dude.get(OauthToken, key, 5.minutes) { verify.call }
      end
 
      # This token may be used when making token introspection requests.
