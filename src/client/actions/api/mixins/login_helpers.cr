@@ -2,6 +2,13 @@ module Samba::Api::LoginHelpers
   macro included
     include Samba::LoginHelpers
 
+    # NOTE:
+    #   A user may be logged in by the server, but may have no record in the
+    #   client's database
+    def logged_in? : Bool
+      login_headers.verify? == true
+    end
+
     getter? current_user : User? do
       login_headers.verify
     end
@@ -10,16 +17,12 @@ module Samba::Api::LoginHelpers
       login_headers.oauth_token?
     end
 
-    private getter login_headers do
-      LoginHeaders.new(context)
-    end
-
     def bearer_logged_in? : Bool
-      !bearer_logged_out?
+      false
     end
 
     def bearer_logged_out? : Bool
-      current_bearer?.nil?
+      !bearer_logged_in?
     end
 
     def current_user_or_bearer : User
@@ -36,6 +39,10 @@ module Samba::Api::LoginHelpers
 
     def current_bearer? : User?
       nil
+    end
+
+    private getter login_headers do
+      LoginHeaders.new(context)
     end
   end
 end

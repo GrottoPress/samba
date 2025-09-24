@@ -2,12 +2,11 @@ module Samba::Api::BearerLoginHelpers
   macro included
     include Samba::Api::LoginHelpers
 
+    # NOTE:
+    #   A user may be logged in by the server, but may have no record in the
+    #   client's database
     def bearer_logged_in? : Bool
-      !bearer_logged_out?
-    end
-
-    def bearer_logged_out? : Bool
-      current_bearer?.nil?
+      bearer_login_headers.verify?(bearer_scope) == true
     end
 
     def current_user_or_bearer : User

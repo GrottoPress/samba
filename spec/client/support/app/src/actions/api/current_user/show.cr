@@ -6,10 +6,14 @@ class Api::CurrentUser::Show < PublicApi
   end
 
   def user
-    current_user_or_bearer
+    current_user_or_bearer?
   end
 
   def authorize?(user : User) : Bool
-    user.id == self.user.id
+    user.id == self.user.try(&.id)
+  end
+
+  def authorize? : Bool
+    true
   end
 end

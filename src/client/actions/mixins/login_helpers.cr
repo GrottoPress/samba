@@ -2,12 +2,15 @@ module Samba::LoginHelpers
   macro included
     include Shield::ActionHelpers
 
+    # NOTE:
+    #   A user may be logged in by the server, but may have no record in the
+    #   client's database
     def logged_in? : Bool
-      !logged_out?
+      login_session.verify? == true
     end
 
     def logged_out? : Bool
-      current_user?.nil?
+      !logged_in?
     end
 
     def current_user : User

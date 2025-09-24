@@ -21,8 +21,10 @@ module Samba::Api::BearerLoginPipes
 
     def check_authorization
       if logged_out? && bearer_logged_out? ||
-        logged_in? && authorize?(current_user) ||
-        bearer_logged_in? && authorize?(current_bearer)
+        current_user? && authorize?(current_user) ||
+        current_bearer? && authorize?(current_bearer) ||
+        current_user?.nil? && authorize? ||
+        current_bearer?.nil? && authorize?
 
         continue
       else

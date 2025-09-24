@@ -5,9 +5,7 @@ module Samba::HttpClient
     end
 
     def api_auth(remote_id, scopes = ["sso"])
-      create_user(remote_id)
       mock_request(remote_id, scopes)
-
       headers("Authorization": "Bearer a1b2c3e4d5")
     end
 
@@ -24,7 +22,6 @@ module Samba::HttpClient
       scopes = ["sso"],
       session = Lucky::Session.new
     )
-      create_user(remote_id)
       mock_request(remote_id, scopes)
 
       LoginSession.new(session).set("a1b2c3e4d5")
@@ -48,14 +45,6 @@ module Samba::HttpClient
     def self.session_from_cookies(cookies : HTTP::Cookies)
       cookies = Lucky::CookieJar.from_request_cookies(cookies)
       Lucky::Session.from_cookie_jar(cookies)
-    end
-
-    private def create_user(remote_id) : Nil
-      remote_id.try do |id|
-        return if UserQuery.new.remote_id(id).any?
-      end
-
-      UserFactory.create &.remote_id(remote_id)
     end
 
     private def mock_request(remote_id, scopes)

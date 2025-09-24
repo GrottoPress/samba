@@ -26,7 +26,10 @@ module Samba::LoginPipes
     end
 
     def check_authorization
-      if logged_out? || authorize?(current_user)
+      if logged_out? ||
+        current_user? && authorize?(current_user) ||
+        current_user?.nil? && authorize?
+
         continue
       else
         response.status_code = 403
@@ -59,6 +62,10 @@ module Samba::LoginPipes
     end
 
     def authorize?(user : User) : Bool
+      false
+    end
+
+    def authorize? : Bool
       false
     end
   end

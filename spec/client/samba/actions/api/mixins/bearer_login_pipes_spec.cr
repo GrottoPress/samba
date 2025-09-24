@@ -2,6 +2,24 @@ require "../../../../spec_helper"
 
 describe Samba::Api::BearerLoginPipes do
   describe "#require_logged_in" do
+    it "allows valid token for existing user" do
+      user = UserFactory.create
+
+      client = ApiClient.new.api_auth(user, "client.current_user.show")
+      response = client.exec(Api::CurrentUser::Show)
+
+      response.should send_json(200)
+      response.headers["WWW-Authenticate"]?.should be_nil
+    end
+
+    it "allows valid token for non-existent user" do
+      client = ApiClient.new.api_auth(67890, "client.current_user.show")
+      response = client.exec(Api::CurrentUser::Show)
+
+      response.should send_json(200)
+      response.headers["WWW-Authenticate"]?.should be_nil
+    end
+
     it "requires access token" do
       response = ApiClient.exec(Api::CurrentUser::Show)
 

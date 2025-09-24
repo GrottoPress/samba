@@ -2,6 +2,24 @@ require "../../../spec_helper"
 
 describe Samba::LoginPipes do
   describe "#require_logged_in" do
+    it "allows valid token for existing user" do
+      user = UserFactory.create
+
+      client = ApiClient.new.browser_auth(user)
+      response = client.exec(CurrentUser::Show)
+
+      response.status.ok?.should be_true
+      response.headers["Location"]?.should be_nil
+    end
+
+    it "allows valid token for non-existent user" do
+      client = ApiClient.new.browser_auth(67890)
+      response = client.exec(CurrentUser::Show)
+
+      response.status.ok?.should be_true
+      response.headers["Location"]?.should be_nil
+    end
+
     it "requires access token" do
       response = ApiClient.exec(CurrentUser::Show)
 

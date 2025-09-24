@@ -6,10 +6,14 @@ class CurrentUser::Show < BrowserAction
   end
 
   def user
-    current_user
+    current_user?
   end
 
   def authorize?(user : User) : Bool
-    user.id == self.user.id
+    user.id == self.user.try(&.id)
+  end
+
+  def authorize? : Bool
+    true
   end
 end

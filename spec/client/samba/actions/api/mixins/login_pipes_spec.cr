@@ -10,6 +10,10 @@ class Spec::CurrentUser::Show < PrivateApi
   def authorize?(user : User) : Bool
     true
   end
+
+  def authorize? : Bool
+    true
+  end
 end
 
 class Spec::CurrentUser::Create < PrivateApi
@@ -17,10 +21,6 @@ class Spec::CurrentUser::Create < PrivateApi
 
   post "/spec/account" do
     json UserSerializer.new
-  end
-
-  def authorize?(user : User) : Bool
-    true
   end
 end
 
@@ -34,6 +34,24 @@ end
 
 describe Samba::Api::LoginPipes do
   describe "#require_logged_in" do
+    it "allows valid token for existing user" do
+      user = UserFactory.create
+
+      client = ApiClient.new.api_auth(user)
+      response = client.exec(Spec::CurrentUser::Show)
+
+      response.should send_json(200)
+      response.headers["WWW-Authenticate"]?.should be_nil
+    end
+
+    it "allows valid token for non-existent user" do
+      client = ApiClient.new.api_auth(67890)
+      response = client.exec(Spec::CurrentUser::Show)
+
+      response.should send_json(200)
+      response.headers["WWW-Authenticate"]?.should be_nil
+    end
+
     it "requires access token" do
       response = ApiClient.exec(Spec::CurrentUser::Show)
 
@@ -68,11 +86,9 @@ describe Samba::Api::LoginPipes do
   describe "#require_logged_out" do
     it "requires user to be logged out" do
       client = ApiClient.new
-
       client.api_auth(5678)
 
       response = client.exec(Spec::CurrentUser::Create)
-
       response.should send_json(200, message: "action.pipe.not_logged_out")
     end
   end
