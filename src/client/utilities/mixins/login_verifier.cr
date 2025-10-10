@@ -1,6 +1,7 @@
 module Samba::LoginVerifier
   macro included
     include Shield::Verifier
+    include Samba::AllClientIds
 
     def verify : User?
       user? if verify?
@@ -11,7 +12,7 @@ module Samba::LoginVerifier
 
       oauth_token.active? &&
       oauth_token.sso? &&
-      oauth_token.client_id.try(&.in? client_ids)
+      oauth_token.client_id.try(&.in? all_client_ids)
     end
 
     def user : User
@@ -37,14 +38,6 @@ module Samba::LoginVerifier
 
     def raw_token : String
       raw_token?.not_nil!
-    end
-
-    private def client_ids
-      Samba.settings.oauth_client_ids.tap do |ids|
-        Samba.settings.oauth_client.try do |client|
-          ids << client[:id] unless ids.includes?(client[:id])
-        end
-      end
     end
   end
 end
