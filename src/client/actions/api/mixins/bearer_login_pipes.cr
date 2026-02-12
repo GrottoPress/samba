@@ -23,8 +23,7 @@ module Samba::Api::BearerLoginPipes
       if logged_out? && bearer_logged_out? ||
         current_user? && authorize?(current_user) ||
         current_bearer? && authorize?(current_bearer) ||
-        current_user?.nil? && authorize? ||
-        current_bearer?.nil? && authorize?
+        current_user?.nil? && current_bearer?.nil? && authorize?
 
         continue
       else

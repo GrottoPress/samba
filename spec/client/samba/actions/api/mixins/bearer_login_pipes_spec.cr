@@ -1,5 +1,29 @@
 require "../../../../spec_helper"
 
+class Spec::Chickens::Create < PublicApi
+  skip :require_logged_out
+
+  post "/spec/chickens" do
+    json UserSerializer.new
+  end
+
+  def authorize?(user : User) : Bool
+    true
+  end
+end
+
+class Spec::Chickens::Index < PublicApi
+  skip :require_logged_out
+
+  get "/spec/chickens" do
+    json UserSerializer.new
+  end
+
+  def authorize? : Bool
+    true
+  end
+end
+
 describe Samba::Api::BearerLoginPipes do
   describe "#require_logged_in" do
     it "allows valid token for existing user" do
@@ -91,11 +115,21 @@ describe Samba::Api::BearerLoginPipes do
   end
 
   describe "#check_authorization" do
-    it "checks authorization" do
+    it "checks authorization for existing user" do
       user = UserFactory.create
 
-      client = ApiClient.new.api_auth(user, "client.users.show")
-      response = client.exec(Api::Users::Show.with(user_id: user.id))
+      client = ApiClient.new.api_auth(user, "client.spec.chickens.index")
+      response = client.exec(Spec::Chickens::Index)
+
+      response.should send_json(
+        403,
+        message: "action.pipe.authorization_failed"
+      )
+    end
+
+    it "checks authorization for non-existing user" do
+      client = ApiClient.new.api_auth(555, "client.spec.chickens.create")
+      response = client.exec(Spec::Chickens::Create)
 
       response.should send_json(
         403,

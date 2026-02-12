@@ -24,11 +24,27 @@ class Spec::CurrentUser::Create < PrivateApi
   end
 end
 
+class Spec::Users::Create < PrivateApi
+  skip :require_logged_out
+
+  post "/spec/users" do
+    json UserSerializer.new
+  end
+
+  def authorize?(user : User) : Bool
+    true
+  end
+end
+
 class Spec::Users::Index < PrivateApi
   skip :require_logged_out
 
   get "/spec/users" do
     json UserSerializer.new
+  end
+
+  def authorize? : Bool
+    true
   end
 end
 
@@ -94,11 +110,25 @@ describe Samba::Api::LoginPipes do
   end
 
   describe "#check_authorization" do
-    it "checks authorization" do
+    it "checks authorization for existing user" do
+      user = UserFactory.create
+
+      client = ApiClient.new
+      client.api_auth(user)
+
+      response = client.exec(Spec::Users::Index)
+
+      response.should send_json(
+        403,
+        message: "action.pipe.authorization_failed"
+      )
+    end
+
+    it "checks authorization for non-existing user" do
       client = ApiClient.new
       client.api_auth(5678)
 
-      response = client.exec(Spec::Users::Index)
+      response = client.exec(Spec::Users::Create)
 
       response.should send_json(
         403,
