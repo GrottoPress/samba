@@ -9,18 +9,6 @@ module Samba::Api::BearerLoginHelpers
       bearer_login_headers.verify?(bearer_scope) == true
     end
 
-    def current_user_or_bearer : User
-      current_user_or_bearer?.not_nil!
-    end
-
-    def current_user_or_bearer? : User?
-      current_user? || current_bearer?
-    end
-
-    def current_bearer : User
-      current_bearer?.not_nil!
-    end
-
     getter? current_bearer : User? do
       bearer_login_headers.verify(bearer_scope)
     end
