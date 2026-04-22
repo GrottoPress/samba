@@ -33,12 +33,17 @@ module Samba::Api::LoginHelpers
       !bearer_logged_in?
     end
 
+    def any_current_user : User
+      any_current_user?.not_nil!
+    end
+
     def any_current_user? : User?
       current_user? || current_bearer?
     end
 
+    @[Deprecated("Use #any_current_user instead")]
     def current_user_or_bearer : User
-      current_user_or_bearer?.not_nil!
+      any_current_user
     end
 
     @[Deprecated("Use #any_current_user? instead")]
