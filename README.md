@@ -307,7 +307,7 @@ If a *Samba* Client is an API backend, each of its frontend apps, rather, must b
      #  user.privileged?
      #end
 
-     # This authorization callback used when the user is logged in at the
+     # This authorization callback is used when the user is logged in at the
      # authorization server, but does not yet exist in the client's database
      # (due to eventual consistency, for instance).
      #def authorize? : Bool?
