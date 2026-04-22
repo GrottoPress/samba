@@ -19,7 +19,9 @@ module Samba::LoginVerifier
     end
 
     getter? user : User? do
-      oauth_token?.try &.sub.try { |sub| UserQuery.new.remote_id(sub).first? }
+      oauth_token?.try &.remote_id.try do |remote_id|
+        UserQuery.new.remote_id(remote_id).first?
+      end
     end
 
     def oauth_token : OauthToken
