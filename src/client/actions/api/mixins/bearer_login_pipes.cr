@@ -12,7 +12,7 @@ module Samba::Api::BearerLoginPipes
     end
 
     def require_logged_out
-      if logged_out? && bearer_logged_out?
+      if all_logged_out?
         continue
       else
         do_require_logged_out_failed
@@ -20,7 +20,7 @@ module Samba::Api::BearerLoginPipes
     end
 
     def check_authorization
-      if logged_out? && bearer_logged_out? ||
+      if all_logged_out? ||
         current_user? && authorize?(current_user) ||
         current_bearer? && authorize?(current_bearer) ||
         current_user?.nil? && current_bearer?.nil? && authorize?
