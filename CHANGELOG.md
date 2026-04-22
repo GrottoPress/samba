@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased] -
 
 ### Added
+- Add `Samba::Api::LoginHelpers#any_logged_in?`
 - Add `Samba::Api::LoginHelpers#all_logged_out?`
 
 ## [1.4.1] - 2026-02-12

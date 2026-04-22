@@ -3,7 +3,7 @@ module Samba::Api::BearerLoginPipes
     include Samba::Api::LoginPipes
 
     def require_logged_in
-      if logged_in? || bearer_logged_in?
+      if any_logged_in?
         continue
       else
         send_invalid_token_response

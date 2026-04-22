@@ -17,6 +17,10 @@ module Samba::Api::LoginHelpers
       login_headers.oauth_token?
     end
 
+    def any_logged_in? : Bool
+      !all_logged_out?
+    end
+
     def all_logged_out? : Bool
       logged_out? && bearer_logged_out?
     end
