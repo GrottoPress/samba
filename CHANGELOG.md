@@ -15,12 +15,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add `Samba::OauthToken#user_id`
 - Add `Samba::OauthToken#user`
 - Add `Samba::LoginPipes.authorize(&)` macro
+- Add `Samba::RegisterUser` operation mixin
 
 ### Changed
 - Deprecate `Samba::Api::LoginHelpers#current_user_or_bearer`
 - Deprecate `Samba::Api::LoginHelpers#current_user_or_bearer?`
 - Deprecate `Samba::LoginPipes#authorize?(User)`
 - Deprecate `Samba::OauthToken#remote_id`
+- Deprecate `Samba::RegisterCurrentUser`
 
 ## [1.4.1] - 2026-02-12
 

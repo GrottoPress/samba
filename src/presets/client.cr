@@ -4,7 +4,7 @@ class UserQuery < User::BaseQuery
 end
 
 class RegisterCurrentUser < User::SaveOperation
-  include Samba::RegisterCurrentUser
+  include Samba::RegisterUser
 end
 
 class CreateOauthToken < Avram::Operation

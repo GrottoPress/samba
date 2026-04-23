@@ -1,6 +1,6 @@
 require "../../spec_helper"
 
-describe Samba::RegisterCurrentUser do
+describe Samba::RegisterUser do
   it "requires remote ID" do
     RegisterCurrentUser.create do |operation, user|
       user.should be_nil
