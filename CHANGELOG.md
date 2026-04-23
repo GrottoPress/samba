@@ -10,10 +10,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Add `Samba::LoginPipes.authorize(&)` macro
 - Add `Samba::LoginPipes.authorize_user(&)` macro
+- Add `Samba::OauthToken#user_id`
 
 ### Changed
 - Redefine `Samba::Api::LoginHelpers#current_user?` to check both login and bearer login tokens
 - Deprecate `Samba::Api::LoginHelpers#current_user_or_bearer?`
+- Deprecate `Samba::OauthToken#remote_id`
 
 ## [1.4.1] - 2026-02-12
 
