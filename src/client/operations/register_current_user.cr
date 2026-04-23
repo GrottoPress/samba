@@ -1,16 +1,8 @@
 module Samba::RegisterCurrentUser
   macro included
-    upsert_lookup_columns :remote_id
+    {% puts "Samba::RegisterCurrentUser is deprecated. \
+      Use Samba::RegisterUser instead" %}
 
-    before_save do
-      validate_remote_id_required
-    end
-
-    include Samba::ValidateUser
-
-    private def validate_remote_id_required
-      validate_required remote_id,
-        message: Rex.t(:"operation.error.remote_id_required")
-    end
+    include Samba::RegisterUser
   end
 end
