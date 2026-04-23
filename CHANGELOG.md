@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add `Samba::Api::LoginHelpers#any_current_user`
 - Add `Samba::Api::LoginHelpers#any_current_user?`
 - Add `Samba::OauthToken#user_id`
+- Add `Samba::OauthToken#user`
 
 ### Changed
 - Deprecate `Samba::Api::LoginHelpers#current_user_or_bearer`

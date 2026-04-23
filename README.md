@@ -250,6 +250,10 @@ If a *Samba* Client is an API backend, each of its frontend apps, rather, must b
      table :users do
        # ...
        column remote_id : Int64 # or `Int64?`
+
+       # You may add a column to save the full remote user
+       #
+       # column remote : RemoteUser?, serialize: true
        # ...
      end
      # ...
@@ -268,6 +272,10 @@ If a *Samba* Client is an API backend, each of its frontend apps, rather, must b
        create :users do
          # ...
          add remote_id : Int64, unique: true
+
+         # You may add a column to save the full remote user
+         #
+         # add remote : JSON::Any?
          # ...
        end
      end
