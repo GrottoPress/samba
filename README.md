@@ -300,6 +300,14 @@ If a *Samba* Client is an API backend, each of its frontend apps, rather, must b
 
      #skip :pin_login_to_ip_address
 
+     # NOTE:
+     #   A user may be logged in at the authorization server, but does not yet
+     #   exist in the client's database (due to eventual consistency, for
+     #   instance).
+     #authorize do
+     #  current_user?.try(&.admin?) || oauth_token.user.try(&.admin?)
+     #end
+
      #def do_require_logged_out_failed
      #  flash.info = Rex.t(:"action.pipe.not_logged_out")
      #  redirect_back fallback: CurrentUser::Show
@@ -310,14 +318,6 @@ If a *Samba* Client is an API backend, each of its frontend apps, rather, must b
      #  redirect_back fallback: CurrentUser::Show
      #end
      # ...
-
-     # NOTE:
-     #   A user may be logged in at the authorization server, but does not yet
-     #   exist in the client's database (due to eventual consistency, for
-     #   instance).
-     #def authorize? : Bool?
-     #  current_user?.try(&.privileged?) || oauth_token.user.try(&.privileged?)
-     #end
    end
    ```
 

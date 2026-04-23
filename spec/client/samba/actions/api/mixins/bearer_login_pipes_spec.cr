@@ -3,12 +3,10 @@ require "../../../../spec_helper"
 class Spec::Chickens::Create < PublicApi
   skip :require_logged_out
 
+  authorize { true }
+
   post "/spec/chickens" do
     json UserSerializer.new
-  end
-
-  def authorize? : Bool
-    true
   end
 end
 

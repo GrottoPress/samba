@@ -63,8 +63,12 @@ module Samba::LoginPipes
       false
     end
 
-    def authorize? : Bool
-      false
+    macro authorize(&)
+      def authorize? : Bool?
+        \{{ yield }}
+      end
     end
+
+    authorize { false }
   end
 end
