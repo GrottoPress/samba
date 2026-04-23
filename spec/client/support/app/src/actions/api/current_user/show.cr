@@ -6,7 +6,7 @@ class Api::CurrentUser::Show < PublicApi
   end
 
   def user
-    current_user_or_bearer?
+    current_user?
   end
 
   def authorize?(user : User) : Bool

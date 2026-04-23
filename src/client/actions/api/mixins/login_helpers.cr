@@ -6,11 +6,11 @@ module Samba::Api::LoginHelpers
     #   A user may be logged in by the server, but may have no record in the
     #   client's database
     def logged_in? : Bool
-      login_headers.verify? == true
+      login_headers.verify? == true || bearer_logged_in?
     end
 
     getter? current_user : User? do
-      login_headers.verify
+      login_headers.verify || current_bearer?
     end
 
     getter? oauth_token : OauthToken? do
@@ -25,12 +25,14 @@ module Samba::Api::LoginHelpers
       !bearer_logged_in?
     end
 
+    @[Deprecated("User #current_user instead")]
     def current_user_or_bearer : User
-      current_user_or_bearer?.not_nil!
+      current_user
     end
 
+    @[Deprecated("User #current_user? instead")]
     def current_user_or_bearer? : User?
-      current_user? || current_bearer?
+      current_user?
     end
 
     def current_bearer : User
