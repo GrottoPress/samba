@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Deprecate `Samba::Api::LoginHelpers#current_user_or_bearer`
 - Deprecate `Samba::Api::LoginHelpers#current_user_or_bearer?`
+- Deprecate `Samba::LoginPipes#authorize?(User)`
 
 ## [1.4.1] - 2026-02-12
 

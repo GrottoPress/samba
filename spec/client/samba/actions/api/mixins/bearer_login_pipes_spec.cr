@@ -7,7 +7,7 @@ class Spec::Chickens::Create < PublicApi
     json UserSerializer.new
   end
 
-  def authorize?(user : User) : Bool
+  def authorize? : Bool
     true
   end
 end
@@ -17,10 +17,6 @@ class Spec::Chickens::Index < PublicApi
 
   get "/spec/chickens" do
     json UserSerializer.new
-  end
-
-  def authorize? : Bool
-    true
   end
 end
 
@@ -128,8 +124,8 @@ describe Samba::Api::BearerLoginPipes do
     end
 
     it "checks authorization for non-existing user" do
-      client = ApiClient.new.api_auth(555, "client.spec.chickens.create")
-      response = client.exec(Spec::Chickens::Create)
+      client = ApiClient.new.api_auth(555, "client.spec.chickens.index")
+      response = client.exec(Spec::Chickens::Index)
 
       response.should send_json(
         403,

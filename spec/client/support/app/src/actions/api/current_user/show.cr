@@ -9,10 +9,6 @@ class Api::CurrentUser::Show < PublicApi
     any_current_user?
   end
 
-  def authorize?(user : User) : Bool
-    user.id == self.user.try(&.id)
-  end
-
   def authorize? : Bool
     true
   end

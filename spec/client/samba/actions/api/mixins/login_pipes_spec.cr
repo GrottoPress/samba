@@ -7,10 +7,6 @@ class Spec::CurrentUser::Show < PrivateApi
     json UserSerializer.new
   end
 
-  def authorize?(user : User) : Bool
-    true
-  end
-
   def authorize? : Bool
     true
   end
@@ -29,22 +25,6 @@ class Spec::Users::Create < PrivateApi
 
   post "/spec/users" do
     json UserSerializer.new
-  end
-
-  def authorize?(user : User) : Bool
-    true
-  end
-end
-
-class Spec::Users::Index < PrivateApi
-  skip :require_logged_out
-
-  get "/spec/users" do
-    json UserSerializer.new
-  end
-
-  def authorize? : Bool
-    true
   end
 end
 
@@ -116,7 +96,7 @@ describe Samba::Api::LoginPipes do
       client = ApiClient.new
       client.api_auth(user)
 
-      response = client.exec(Spec::Users::Index)
+      response = client.exec(Spec::Users::Create)
 
       response.should send_json(
         403,

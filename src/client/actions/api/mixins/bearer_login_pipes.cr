@@ -21,8 +21,8 @@ module Samba::Api::BearerLoginPipes
 
     def check_authorization
       if all_logged_out? ||
-        any_current_user? && authorize?(any_current_user) ||
-        any_current_user?.nil? && authorize?
+        authorize? ||
+        any_current_user? && authorize?(any_current_user)
 
         continue
       else
