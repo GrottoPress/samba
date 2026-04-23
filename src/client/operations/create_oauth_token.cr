@@ -65,7 +65,7 @@ module Samba::CreateOauthToken
     private def create_user(oauth_token : OauthToken)
       client_id.value.try do |value|
         return unless oauth_token.sso? && oauth_token.client_authorized?(value)
-        RegisterCurrentUser.upsert!(remote_id: oauth_token.remote_id.not_nil!)
+        RegisterCurrentUser.upsert!(remote_id: oauth_token.user_id.not_nil!)
       end
     end
   end

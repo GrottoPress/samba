@@ -43,7 +43,12 @@ module Samba::OauthToken
       azp.try(&.== client_id)
     end
 
+    @[Deprecated("Use #user_id instead")]
     def remote_id
+      user_id
+    end
+
+    def user_id
       sub.try do |subject|
         {{ User::COLUMNS.find do |column|
           column[:name] == :remote_id.id

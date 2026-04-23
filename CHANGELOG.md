@@ -12,11 +12,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add `Samba::Api::LoginHelpers#all_logged_out?`
 - Add `Samba::Api::LoginHelpers#any_current_user`
 - Add `Samba::Api::LoginHelpers#any_current_user?`
+- Add `Samba::OauthToken#user_id`
 
 ### Changed
 - Deprecate `Samba::Api::LoginHelpers#current_user_or_bearer`
 - Deprecate `Samba::Api::LoginHelpers#current_user_or_bearer?`
 - Deprecate `Samba::LoginPipes#authorize?(User)`
+- Deprecate `Samba::OauthToken#remote_id`
 
 ## [1.4.1] - 2026-02-12
 

@@ -25,7 +25,7 @@ module Samba::BearerLoginVerifier
     end
 
     getter? user : User? do
-      oauth_token?.try &.remote_id.try do |remote_id|
+      oauth_token?.try &.user_id.try do |remote_id|
         UserQuery.new.remote_id(remote_id).first?
       end
     end
