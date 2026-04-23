@@ -18,6 +18,12 @@ module Samba::OauthToken
     getter sub : String?
     getter token_type : String?
 
+    {% begin %}
+      {% remote = User::COLUMNS.find { |column| column[:name] == :remote.id } %}
+      {% type = remote ? remote[:type] : Nil %}
+      getter user : Union({{ type }}, Nil)
+    {% end %}
+
     @[JSON::Field(converter: Time::EpochConverter)]
     getter exp : Time?
 
