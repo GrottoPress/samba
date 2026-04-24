@@ -61,12 +61,47 @@ module Samba::LoginPipes
       redirect_back fallback: CurrentUser::Show
     end
 
-    def authorize?(user : User) : Bool
-      false
+    macro authorize(&block)
+      {% verbatim do %}
+        {% arg_count = block.args.size %}
+        {% max_arg_count = 0 %}
+
+        {% if arg_count > max_arg_count %}
+          {% block.raise "too many block parameters (given #{arg_count}, \
+            expected maximum #{max_arg_count})" %}
+        {% end %}
+
+        {% body = block.body.id.gsub(/super\(\)/, "super") %}
+        {% body = body.gsub(/previous_def\(\)/, "previous_def") %}
+
+        def authorize? : Bool?
+          {{ body }}
+        end
+      {% end %}
     end
 
-    def authorize? : Bool
-      false
+    macro authorize_user(&block)
+      {% verbatim do %}
+        {% arg_count = block.args.size %}
+
+        {% if arg_count > 1 %}
+          {% block.raise "too many block parameters (given #{arg_count}, \
+            expected maximum 1)" %}
+        {% end %}
+
+        {% arg = block.args.first %}
+        {% arg = !arg || arg == "_".id ? "__".id : arg %}
+        {% body = block.body.id.gsub(/super\(\)/, "super") %}
+        {% body = body.gsub(/previous_def\(\)/, "previous_def") %}
+
+        def authorize?({{ arg }} : User) : Bool?
+          {{ body }}
+        end
+      {% end %}
     end
+
+    authorize_user { false }
+
+    authorize { false }
   end
 end

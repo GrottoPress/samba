@@ -2,6 +2,10 @@ module Samba::Api::CurrentLogin::Destroy
   macro included
     skip :require_logged_out
 
+    authorize_user do |user|
+      user.id == login.user_id
+    end
+
     # delete "/login" do
     #   run_operation
     # end
@@ -37,10 +41,6 @@ module Samba::Api::CurrentLogin::Destroy
 
     def login
       current_login
-    end
-
-    def authorize?(user : User) : Bool
-      user.id == login.user_id
     end
   end
 end

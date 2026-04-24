@@ -3,16 +3,11 @@ require "../../../../spec_helper"
 class Spec::CurrentUser::Show < PrivateApi
   skip :require_logged_out
 
+  authorize_user { true }
+  authorize { true }
+
   get "/spec/account" do
     json UserSerializer.new
-  end
-
-  def authorize?(user : User) : Bool
-    true
-  end
-
-  def authorize? : Bool
-    true
   end
 end
 
@@ -27,24 +22,20 @@ end
 class Spec::Users::Create < PrivateApi
   skip :require_logged_out
 
+  authorize_user { true }
+
   post "/spec/users" do
     json UserSerializer.new
-  end
-
-  def authorize?(user : User) : Bool
-    true
   end
 end
 
 class Spec::Users::Index < PrivateApi
   skip :require_logged_out
 
+  authorize { true }
+
   get "/spec/users" do
     json UserSerializer.new
-  end
-
-  def authorize? : Bool
-    true
   end
 end
 

@@ -2,6 +2,10 @@ module Samba::CurrentLogin::Destroy
   macro included
     skip :require_logged_out
 
+    authorize_user do |user|
+      user.id == login.user_id
+    end
+
     param client_id : OauthClient::PrimaryKeyType? = nil
 
     # get "/logout" do
@@ -35,10 +39,6 @@ module Samba::CurrentLogin::Destroy
 
     def login
       current_login
-    end
-
-    def authorize?(user : User) : Bool
-      user.id == login.user_id
     end
 
     private getter oauth_client_ids : Array(OauthClient::PrimaryKeyType) do
