@@ -1,4 +1,5 @@
 class Users::Show < BrowserAction
+  skip :require_logged_in
   skip :require_logged_out
 
   get "/users/:user_id" do

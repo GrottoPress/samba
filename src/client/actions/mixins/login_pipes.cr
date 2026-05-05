@@ -26,8 +26,7 @@ module Samba::LoginPipes
     end
 
     def check_authorization
-      if logged_out? ||
-        current_user? && authorize?(current_user) ||
+      if current_user? && authorize?(current_user) ||
         current_user?.nil? && authorize?
 
         continue

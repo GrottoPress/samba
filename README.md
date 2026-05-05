@@ -311,13 +311,18 @@ If a *Samba* Client is an API backend, each of its frontend apps, rather, must b
      #end
      # ...
 
+     # This authorization callback is used when the user is logged in at the
+     # authorization server, and exists in the client's database.
      #authorize_user do |user|
      #  user.privileged?
      #end
 
-     # This authorization callback is used when the user is logged in at the
-     # authorization server, but does not yet exist in the client's database
-     # (due to eventual consistency, for instance).
+     # This authorization callback is used under any of these conditions:
+     #
+     # - the user is logged in at the authorization server, but does not yet
+     #   exist in the client's database (eg. due to eventual consistency).
+     #
+     # - the user is not logged in
      #authorize do
      #  oauth_token.user.try(&.privileged?)
      #end

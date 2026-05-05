@@ -82,11 +82,18 @@ describe Samba::LoginPipes do
   end
 
   describe "#check_authorization" do
-    it "checks authorization" do
+    it "checks authorization for logged in users" do
       user = UserFactory.create
 
       client = ApiClient.new.browser_auth(user)
       response = client.exec(Users::Show.with(user_id: user.id))
+
+      response.headers["X-Authorized"]?.should eq("false")
+    end
+
+    it "checks authorization for logged out users" do
+      user = UserFactory.create
+      response = ApiClient.exec(Users::Show.with(user_id: user.id))
 
       response.headers["X-Authorized"]?.should eq("false")
     end
