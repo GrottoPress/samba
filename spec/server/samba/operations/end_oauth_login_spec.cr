@@ -26,7 +26,7 @@ describe Samba::EndOauthLogin do
 
     EndCurrentOauthLogin.update(
       login,
-      params(oauth_client_ids: [oauth_client.id]),
+      fake_params(login: {oauth_client_ids: [oauth_client.id]}),
       session: nil
     ) do |operation, _|
       operation.saved?.should be_true

@@ -25,7 +25,7 @@ module Samba::OauthStateSession
       @session.get?(:oauth_state)
     end
 
-    def verify?(params : Lucky::Params) : Bool
+    def verify?(params : Avram::Paramable) : Bool
       varify?(params.get? :state)
     end
 

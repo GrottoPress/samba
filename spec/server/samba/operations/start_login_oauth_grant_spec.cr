@@ -13,12 +13,12 @@ describe Samba::StartLoginOauthGrant do
     session = Lucky::Session.new
 
     StartLoginOauthGrant.create(
-      params(
+      fake_params(oauth_grant: {
         granted: true,
         code_challenge: "code_challenge",
         code_challenge_method: "S256",
         redirect_uri: redirect_uri
-      ),
+      }),
       scopes: ["sso"],
       type: OauthGrantType.new(OauthGrantType::AUTHORIZATION_CODE),
       oauth_client: oauth_client,
@@ -45,12 +45,12 @@ describe Samba::StartLoginOauthGrant do
     session = Lucky::Session.new
 
     StartLoginOauthGrant.create(
-      params(
+      fake_params(oauth_grant: {
         granted: true,
         code_challenge: "code_challenge",
         code_challenge_method: "S256",
         redirect_uri: redirect_uri
-      ),
+      }),
       scopes: ["server.current_user.show"],
       type: OauthGrantType.new(OauthGrantType::AUTHORIZATION_CODE),
       oauth_client: oauth_client,

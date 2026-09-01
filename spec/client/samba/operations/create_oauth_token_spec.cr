@@ -39,7 +39,7 @@ describe Samba::CreateOauthToken do
     session = Lucky::Session.new
 
     CreateOauthToken.run(
-      nested_params(oauth_token: {
+      fake_params(oauth_token: {
         client_id: client_id,
         client_secret: client_secret,
         code: code,
@@ -60,7 +60,7 @@ describe Samba::CreateOauthToken do
 
   it "requires authorization code" do
     CreateOauthToken.run(
-      nested_params(oauth_token: {
+      fake_params(oauth_token: {
         client_id: "client-id",
         client_secret: "client-secret",
         code_verifier: "code-verifier",
@@ -76,7 +76,7 @@ describe Samba::CreateOauthToken do
 
   it "requires client ID" do
     CreateOauthToken.run(
-      nested_params(oauth_token: {
+      fake_params(oauth_token: {
         client_secret: "client-secret",
         code: "code",
         code_verifier: "code-verifier",
@@ -94,7 +94,7 @@ describe Samba::CreateOauthToken do
 
   it "requires client secret" do
     CreateOauthToken.run(
-      nested_params(oauth_token: {
+      fake_params(oauth_token: {
         client_id: "client-id",
         code: "code",
         code_verifier: "code-verifier",
@@ -111,7 +111,7 @@ describe Samba::CreateOauthToken do
 
   it "requires redirect URI" do
     CreateOauthToken.run(
-      nested_params(oauth_token: {
+      fake_params(oauth_token: {
         client_id: "client-id",
         client_secret: "client-secret",
         code: "code",

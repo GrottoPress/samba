@@ -21,7 +21,7 @@ describe Samba::DeleteOauthLogin do
 
     DeleteCurrentOauthLogin.delete(
       login,
-      params(oauth_client_ids: [oauth_client.id]),
+      fake_params(login: {oauth_client_ids: [oauth_client.id]}),
       session: nil
     ) do |operation, _|
       operation.deleted?.should be_true
