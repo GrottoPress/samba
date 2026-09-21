@@ -73,11 +73,9 @@ module Samba::CreateOauthToken
               remote_id: oauth_token.user_id.not_nil!
             )
           end
-
-          RegisterCurrentUser.upsert!(remote_id: oauth_token.user_id.not_nil!)
-        {% else %}
-          RegisterCurrentUser.upsert!(remote_id: oauth_token.user_id.not_nil!)
         {% end %}
+
+        RegisterCurrentUser.upsert!(remote_id: oauth_token.user_id.not_nil!)
       end
     end
   end
