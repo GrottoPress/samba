@@ -4,7 +4,7 @@ module Samba::DeleteOauthLogin
 
     attribute oauth_client_ids : Array(OauthClient::PrimaryKeyType)
 
-    after_delete delete_login_tokens
+    after_delete :delete_login_tokens
 
     private def delete_login_tokens(login : Shield::Login)
       oauth_client_ids.value.try do |value|

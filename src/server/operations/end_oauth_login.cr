@@ -4,7 +4,7 @@ module Samba::EndOauthLogin
 
     attribute oauth_client_ids : Array(OauthClient::PrimaryKeyType)
 
-    after_save revoke_login_tokens
+    after_save :revoke_login_tokens
 
     private def revoke_login_tokens(login : Shield::Login)
       oauth_client_ids.value.try do |value|

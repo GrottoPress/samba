@@ -17,7 +17,7 @@ module Samba::CreateOauthToken
       validate_redirect_uri_required
     end
 
-    after_run create_user
+    after_run :create_user
 
     def run
       create_token
