@@ -7,6 +7,10 @@ class RegisterCurrentUser < User::SaveOperation
   include Samba::RegisterUser
 end
 
+class RegisterOauthTokenUser < User::SaveOperation
+  include Samba::RegisterOauthTokenUser
+end
+
 class CreateOauthToken < Avram::Operation
   include Samba::CreateOauthToken
 end

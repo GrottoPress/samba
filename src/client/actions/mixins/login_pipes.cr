@@ -47,18 +47,7 @@ module Samba::LoginPipes
 
     def create_logged_in_user
       if logged_in? && current_user?.nil?
-        oauth_token.user_id.try do |remote_id|
-          {% if User::COLUMNS.find { |column| column[:name] == :remote.id } %}
-            if remote = oauth_token.user
-              next RegisterCurrentUser.upsert!(
-                remote: remote,
-                remote_id: remote_id
-              )
-            end
-          {% end %}
-
-          RegisterCurrentUser.upsert!(remote_id: remote_id)
-        end
+        RegisterOauthTokenUser.upsert!(oauth_token)
       end
 
       continue
