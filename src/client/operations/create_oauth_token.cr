@@ -53,7 +53,7 @@ module Samba::CreateOauthToken
       )
     end
 
-    private def set_session(oauth_token : OauthToken)
+    private def set_session(oauth_token : Samba::OauthToken)
       client_id.value.try do |value|
         session.try do |_session|
           return unless oauth_token.client_authorized?(value)
@@ -62,7 +62,7 @@ module Samba::CreateOauthToken
       end
     end
 
-    private def create_user(oauth_token : OauthToken)
+    private def create_user(oauth_token : Samba::OauthToken)
       client_id.value.try do |value|
         return unless oauth_token.sso? && oauth_token.client_authorized?(value)
 
