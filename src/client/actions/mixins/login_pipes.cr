@@ -5,7 +5,7 @@ module Samba::LoginPipes
     before :disable_caching
     before :require_logged_in
     before :require_logged_out
-    before :create_logged_in_user
+    before :register_logged_in_user
     before :check_authorization
 
     def require_logged_in
@@ -45,7 +45,7 @@ module Samba::LoginPipes
       continue
     end
 
-    def create_logged_in_user
+    def register_logged_in_user
       if logged_in? && current_user?.nil?
         RegisterOauthTokenUser.upsert!(oauth_token)
       end

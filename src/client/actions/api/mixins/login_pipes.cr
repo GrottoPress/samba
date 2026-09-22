@@ -11,7 +11,7 @@ module Samba::Api::LoginPipes
       end
     end
 
-    def create_logged_in_user
+    def register_logged_in_user
       previous_def if login_headers.verify? == true # only SSO
       continue
     end

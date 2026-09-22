@@ -134,7 +134,7 @@ describe Samba::Api::BearerLoginPipes do
     end
   end
 
-  describe "#create_logged_in_user" do
+  describe "#register_logged_in_user" do
     it "does not create user" do
       remote_id = 67890
 

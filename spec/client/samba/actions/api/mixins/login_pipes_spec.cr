@@ -21,7 +21,7 @@ end
 
 class Spec::Users::Create < PrivateApi
   skip :require_logged_out
-  skip :create_logged_in_user
+  skip :register_logged_in_user
 
   authorize_user { true }
 
@@ -129,7 +129,7 @@ describe Samba::Api::LoginPipes do
     end
   end
 
-  describe "#create_logged_in_user" do
+  describe "#register_logged_in_user" do
     it "creates user" do
       remote_id = 67890
 
