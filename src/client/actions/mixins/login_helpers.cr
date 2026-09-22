@@ -5,7 +5,7 @@ module Samba::LoginHelpers
     # NOTE:
     #   A user may be logged in by the server, but may have no record in the
     #   client's database
-    def logged_in? : Bool
+    getter? logged_in : Bool do
       login_session.verify? == true
     end
 
