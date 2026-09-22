@@ -5,6 +5,7 @@ module Samba::LoginPipes
     before :disable_caching
     before :require_logged_in
     before :require_logged_out
+    before :create_logged_in_user
     before :check_authorization
 
     def require_logged_in
@@ -40,6 +41,25 @@ module Samba::LoginPipes
       response.headers["Cache-Control"] = "no-store"
       response.headers["Expires"] = "Sun, 16 Aug 1987 07:00:00 GMT"
       response.headers["Pragma"] = "no-cache"
+
+      continue
+    end
+
+    def create_logged_in_user
+      if logged_in? && current_user?.nil?
+        oauth_token.user_id.try do |remote_id|
+          {% if User::COLUMNS.find { |column| column[:name] == :remote.id } %}
+            if remote = oauth_token.user
+              next RegisterCurrentUser.upsert!(
+                remote: remote,
+                remote_id: remote_id
+              )
+            end
+          {% end %}
+
+          RegisterCurrentUser.upsert!(remote_id: remote_id)
+        end
+      end
 
       continue
     end

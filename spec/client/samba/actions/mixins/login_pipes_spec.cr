@@ -98,4 +98,16 @@ describe Samba::LoginPipes do
       response.headers["X-Authorized"]?.should eq("false")
     end
   end
+
+  describe "#create_logged_in_user" do
+    it "creates user" do
+      remote_id = 67890
+
+      client = ApiClient.new.browser_auth(remote_id)
+      response = client.exec(CurrentUser::Show)
+
+      response.status.ok?.should be_true
+      UserQuery.new.remote_id(remote_id).none?.should be_false
+    end
+  end
 end

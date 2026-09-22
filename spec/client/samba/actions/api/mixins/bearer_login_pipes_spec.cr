@@ -133,4 +133,16 @@ describe Samba::Api::BearerLoginPipes do
       )
     end
   end
+
+  describe "#create_logged_in_user" do
+    it "does not create user" do
+      remote_id = 67890
+
+      client = ApiClient.new.api_auth(remote_id, "client.current_user.show")
+      response = client.exec(Api::CurrentUser::Show)
+
+      response.should send_json(200)
+      UserQuery.new.remote_id(remote_id).none?.should be_true
+    end
+  end
 end
