@@ -5,7 +5,7 @@ module Samba::Api::BearerLoginHelpers
     # NOTE:
     #   A user may be logged in by the server, but may have no record in the
     #   client's database
-    def bearer_logged_in? : Bool
+    getter? bearer_logged_in : Bool do
       bearer_login_headers.verify?(bearer_scope) == true
     end
 
