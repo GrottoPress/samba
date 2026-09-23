@@ -13,24 +13,18 @@ crystal: ~> 1.6
 dependencies:
   shield:
     github: GrottoPress/shield
-    version: ~> 1.8
+    version: ~> 1.9
 
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
     version: ~> 1.2.0
-  avram:
-    github: luckyframework/avram
-    version: ~> 1.0
   carbon:
     github: luckyframework/carbon
-    version: ~> 0.3.0
+    version: ~> 0.6.0
   dude:
     github: GrottoPress/dude
     version: ~> 2.0
-  lucky:
-    github: luckyframework/lucky
-    version: ~> 1.0
   lucky_env:
     github: luckyframework/lucky_env
     version: ~> 0.1.4

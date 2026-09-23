@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add `#register_logged_in_user` action pipe
 - Add `RegisterOauthTokenUser` operation
 
+### Changed
+- Bump minimum `shield` shard version to 1.9
+
 ## [1.7.0] - 2026-09-02
 
 ### Changed
