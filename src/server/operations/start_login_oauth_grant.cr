@@ -1,4 +1,4 @@
-module Samba::StartLoginOauthGrant
+module Samba::StartLoginOauthGrant # OauthGrant::SaveOperation
   macro included
     include Shield::StartOauthGrant
     include Shield::SetSession

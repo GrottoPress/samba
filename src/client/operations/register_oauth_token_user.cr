@@ -1,4 +1,4 @@
-module Samba::RegisterOauthTokenUser
+module Samba::RegisterOauthTokenUser # User::SaveOperation
   macro included
     needs oauth_token : OauthToken
 

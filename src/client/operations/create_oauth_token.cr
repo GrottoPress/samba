@@ -1,4 +1,4 @@
-module Samba::CreateOauthToken
+module Samba::CreateOauthToken # Avram::BasicOperation
   macro included
     include Shield::SetSession
 

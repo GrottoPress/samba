@@ -1,4 +1,4 @@
-module Samba::DeleteOauthLogin
+module Samba::DeleteOauthLogin # Login::DeleteOperation
   macro included
     include Shield::DeleteLogin
 

@@ -1,4 +1,4 @@
-module Samba::RegisterCurrentUser
+module Samba::RegisterCurrentUser # User::SaveOperation
   macro included
     {% puts "Samba::RegisterCurrentUser is deprecated. \
       Use Samba::RegisterUser instead" %}

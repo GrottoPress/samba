@@ -1,4 +1,4 @@
-module Samba::EndOauthLogin
+module Samba::EndOauthLogin # Login::SaveOperation
   macro included
     include Shield::EndLogin
 

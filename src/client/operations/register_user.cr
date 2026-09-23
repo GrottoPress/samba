@@ -1,4 +1,4 @@
-module Samba::RegisterUser
+module Samba::RegisterUser # User::SaveOperation
   macro included
     upsert_lookup_columns :remote_id
 
