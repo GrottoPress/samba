@@ -18,7 +18,7 @@ module Samba::OauthToken
     getter sub : String?
     getter token_type : String?
 
-    {% begin %}
+    {% if Avram::Model.all_subclasses.any?(&.name.== :User.id) %}
       {% remote = User::COLUMNS.find { |column| column[:name] == :remote.id } %}
       {% type = remote ? remote[:type] : Nil %}
       getter user : Union({{ type }}, Nil)
@@ -54,13 +54,15 @@ module Samba::OauthToken
       user_id
     end
 
-    def user_id
-      sub.try do |subject|
-        {{ User::COLUMNS.find do |column|
-          column[:name] == :remote_id.id
-        end[:type] }}.adapter.parse(subject).value
+    {% if Avram::Model.all_subclasses.any?(&.name.== :User.id) %}
+      def user_id
+        sub.try do |subject|
+          {{ User::COLUMNS.find do |column|
+            column[:name] == :remote_id.id
+          end[:type] }}.adapter.parse(subject).value
+        end
       end
-    end
+    {% end %}
 
     def self.create(
       code : String,
