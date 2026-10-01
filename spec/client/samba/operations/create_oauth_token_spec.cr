@@ -1,7 +1,7 @@
 require "../../spec_helper"
 
 describe Samba::CreateOauthToken do
-  it "creates oauth token" do
+  it "creates oauth token for new user" do
     WebMock.allow_net_connect = false
 
     access_token = "access-token"
@@ -55,6 +55,57 @@ describe Samba::CreateOauthToken do
 
       # ameba:disable Performance/AnyInsteadOfEmpty
       UserQuery.new.remote_id(sub).any?.should be_true
+    end
+  end
+
+  it "creates oauth token for existing user" do
+    WebMock.allow_net_connect = false
+
+    access_token = "access-token"
+    client_id = "client-id"
+    client_secret = "client-secret"
+    code = "code"
+    code_verifier = "code-verifier"
+    redirect_uri = "http://redirect.uri"
+    remote_id = 5678
+
+    UserFactory.create &.remote_id(remote_id)
+
+    body = <<-JSON
+      {
+        "access_token": "#{access_token}",
+        "azp": "#{client_id}",
+        "scope": "sso client.current_user.show sika.logins.show",
+        "sub": "#{remote_id}",
+        "token_type": "Bearer"
+      }
+      JSON
+
+    WebMock.stub(:POST, Samba.settings.oauth_token_endpoint)
+      .with(
+        headers: {"Content-Type" => "application/x-www-form-urlencoded"},
+        body: URI::Params.encode({
+          code: code,
+          client_id: client_id,
+          client_secret: client_secret,
+          code_verifier: code_verifier,
+          grant_type: "authorization_code",
+          redirect_uri: redirect_uri,
+        })
+      )
+      .to_return(body: body)
+
+    CreateOauthToken.run(
+      fake_params(oauth_token: {
+        client_id: client_id,
+        client_secret: client_secret,
+        code: code,
+        code_verifier: code_verifier,
+        redirect_uri: redirect_uri
+      })
+    ) do |operation, oauth_token|
+      operation.valid?.should be_true
+      oauth_token.should be_a(OauthToken)
     end
   end
 

@@ -65,7 +65,17 @@ module Samba::CreateOauthToken # Avram::BasicOperation
     private def create_user(oauth_token : Samba::OauthToken)
       client_id.value.try do |value|
         return unless oauth_token.sso? && oauth_token.client_authorized?(value)
-        RegisterOauthTokenUser.upsert!(oauth_token)
+
+        {% if User::COLUMNS.find { |column| column[:name] == :remote.id } %}
+          oauth_token.user.try do |remote|
+            return RegisterCurrentUser.upsert!(
+              remote: remote,
+              remote_id: oauth_token.user_id.not_nil!
+            )
+          end
+        {% end %}
+
+        RegisterCurrentUser.upsert!(remote_id: oauth_token.user_id.not_nil!)
       end
     end
   end
