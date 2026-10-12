@@ -1,28 +1,30 @@
 module Samba::HttpClient
   macro included
-    def api_auth(user : User, scopes = ["sso"])
-      api_auth(user.remote_id, scopes)
+    def api_auth(user : User, scopes = ["sso"], claims = NamedTuple.new)
+      api_auth(user.remote_id, scopes, claims)
     end
 
-    def api_auth(remote_id, scopes = ["sso"])
-      mock_request(remote_id, scopes)
+    def api_auth(remote_id, scopes = ["sso"], claims = NamedTuple.new)
+      mock_request(remote_id, scopes, claims)
       headers("Authorization": "Bearer a1b2c3e4d5")
     end
 
     def browser_auth(
       user : User,
       scopes = ["sso"],
-      session = Lucky::Session.new
+      session = Lucky::Session.new,
+      claims = NamedTuple.new
     )
-      browser_auth(user.remote_id, scopes, session)
+      browser_auth(user.remote_id, scopes, session, claims)
     end
 
     def browser_auth(
       remote_id,
       scopes = ["sso"],
-      session = Lucky::Session.new
+      session = Lucky::Session.new,
+      claims = NamedTuple.new
     )
-      mock_request(remote_id, scopes)
+      mock_request(remote_id, scopes, claims)
 
       LoginSession.new(session).set("a1b2c3e4d5")
       set_cookie_from_session(session)
@@ -47,22 +49,20 @@ module Samba::HttpClient
       Lucky::Session.from_cookie_jar(cookies)
     end
 
-    private def mock_request(remote_id, scopes)
+    private def mock_request(remote_id, scopes, claims = NamedTuple.new)
       scope = scopes.is_a?(Indexable) ? scopes.join(' ') : scopes
 
       client_id = Samba.settings.oauth_client.try(&.[:id]) ||
         Samba.settings.oauth_client_ids.first?
 
-      body = <<-JSON
-        {
-          "active": true,
-          "client_id": "#{client_id}",
-          "iss": "https://samba.server",
-          "scope": "#{scope}",
-          "sub": "#{remote_id}",
-          "token_type": "Bearer"
-        }
-        JSON
+      body = {
+        active: true,
+        client_id: "#{client_id}",
+        iss: "https://samba.server",
+        scope: "#{scope}",
+        sub: "#{remote_id}",
+        token_type: "Bearer"
+      }.merge(claims).to_json
 
       headers = {"Content-Type" => "application/x-www-form-urlencoded"}
 
